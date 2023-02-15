@@ -8,10 +8,11 @@
   --black: #1f1f1f;
   --gray: #707070;
   --light-gray: #adadad;
+  --purple: #633BBC;
 }
 
 html, body {
-  height: 100%;
+  min-height: 100vh;
 }
 
 body {
@@ -30,11 +31,34 @@ strong {
   font-weight: 500;
 }
 
+img {
+  display: block;
+  max-width: 100%;
+}
+
 main {
-  height: 100%;
+  --spacing: 20px;
+  
+  min-height: 100vh;
+  max-width: calc(327px + var(--spacing) * 2);
+  padding: var(--spacing);
+  margin: 0 auto;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 20px;
+}
+
+main > h1 {
+  color: #FFFFFF;
+  font-weight: 500;
+  font-size: 20px;
+}
+
+main > p {
+  color: #FFFFFF;
+  text-align: center;
 }
 
 .card {
@@ -42,15 +66,16 @@ main {
   max-width: 327px;
   border-radius: 24px;
   overflow: hidden;
+  filter: drop-shadow(0px 4px 24px rgba(0, 0, 0, 0.25));
 }
 
-.card > div + div {
+.card > * + * {
   border-top: 1px dashed var(--light-gray);
   position: relative;
 }
 
-.card > div + div::before,
-.card > div + div::after {
+.card > * + *::before,
+.card > * + *::after {
   content: '';
   width: 24px;
   height: 24px;
@@ -59,13 +84,13 @@ main {
   position: absolute;
 }
 
-.card > div + div::before {
+.card > * + *::before {
   top: 0;
   left: 0;
   transform: translate(-50%, -50%);
 }
 
-.card > div + div::after {
+.card > * + *::after {
   top: 0;
   right: 0;
   transform: translate(50%, -50%);
@@ -91,6 +116,7 @@ main {
 }
 
 .card__header .check-in__travel {
+  position: relative;
   margin-top: 24px;
   display: flex;
   justify-content: space-between;
@@ -98,6 +124,13 @@ main {
 
 .card__header .check-in__travel div:last-child {
   text-align: end;
+}
+
+.card__header .check-in__travel svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .card__header .check-in__travel p {
@@ -129,4 +162,51 @@ main {
 .card__body p {
   font-size: 14px;
   color: var(--gray);
+}
+
+.card__footer {
+  background-color: #FFFFFF;
+  padding: 24px 32px;
+  
+}
+
+.card__footer .check-in__info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card__footer .check-in__info p {
+  font-size: 14px;
+  color: var(--gray);
+}
+
+.card__footer .check-in__info span {
+  margin-top: 2px;
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background-color: var(--purple);
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+.card__footer .check-in__info__data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+}
+
+.card__footer .check-in__info__code {
+  text-align: center;
+}
+
+.card__footer .check-in__info__code p {
+  letter-spacing: -0.02em;
+  display: inline-block;
+}
+
+.card__footer__info {
+  margin-top: 24px;
+  text-align: center;
 }
