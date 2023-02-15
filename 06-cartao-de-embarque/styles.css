@@ -210,3 +210,14 @@ main > p {
   margin-top: 24px;
   text-align: center;
 }
+
+@media screen and (max-width: 425px) {
+  .card > * {
+    border-radius: 24px;
+  }
+  
+  .card > * + *::before,
+  .card > * + *::after {
+    display: none;
+  }
+}
