@@ -7,6 +7,7 @@
 :root {
   --black: #1f1f1f;
   --gray: #707070;
+  --light-gray: #adadad;
 }
 
 html, body {
@@ -41,6 +42,33 @@ main {
   max-width: 327px;
   border-radius: 24px;
   overflow: hidden;
+}
+
+.card > div + div {
+  border-top: 1px dashed var(--light-gray);
+  position: relative;
+}
+
+.card > div + div::before,
+.card > div + div::after {
+  content: '';
+  width: 24px;
+  height: 24px;
+  background-color: #573a99;
+  border-radius: 50%;
+  position: absolute;
+}
+
+.card > div + div::before {
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+}
+
+.card > div + div::after {
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
 }
 
 .card__header {
@@ -85,4 +113,20 @@ main {
 .card__header .check-in__travel sup {
   font-size: 10px;
   font-weight: 500;
+}
+
+.card__body {
+  background-color: #FFFFFF;
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card__body div:last-child {
+  text-align: end;
+}
+
+.card__body p {
+  font-size: 14px;
+  color: var(--gray);
 }
