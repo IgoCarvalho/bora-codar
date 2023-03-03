@@ -1,0 +1,21 @@
+.container {
+  outline: 1px solid var(--graphic-elements);
+  outline-offset: -1px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  width: 100%;
+
+  &:focus-within {
+    outline-color: var(--highlight);
+    outline-width: 2px;
+  }
+
+  input {
+    border: none;
+    outline: none;
+    display: block;
+    flex: 1;
+    padding: 16px;
+  }
+}
