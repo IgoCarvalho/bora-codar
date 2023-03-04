@@ -1,9 +1,8 @@
 .container {
   outline: 1px solid var(--graphic-elements);
-  outline-offset: -1px;
   border-radius: 8px;
-  overflow: hidden;
   display: flex;
+  align-items: center;
   width: 100%;
 
   &:focus-within {
@@ -11,11 +10,41 @@
     outline-width: 2px;
   }
 
+  & > * + *::before {
+    content: '';
+    background-color: var(--graphic-elements);
+    width: 2px;
+    height: 24px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .inputContainer {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 16px;
+  }
+
   input {
     border: none;
     outline: none;
+    appearance: none;
     display: block;
+    padding: 16px 0;
+    width: 100%;
     flex: 1;
-    padding: 16px;
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
   }
 }

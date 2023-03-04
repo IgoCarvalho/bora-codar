@@ -10,9 +10,9 @@ export function ArrowsExchange() {
       <path
         d="M7 10H21L17 6M17 14H3L7 18"
         stroke="#0F172A"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
