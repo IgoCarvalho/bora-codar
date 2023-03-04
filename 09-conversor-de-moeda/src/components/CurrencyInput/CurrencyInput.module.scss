@@ -26,6 +26,10 @@
     align-items: center;
     gap: 4px;
     padding: 0 16px;
+
+    &.disabled {
+      color: var(--graphic-elements);
+    }
   }
 
   input {
@@ -36,6 +40,11 @@
     padding: 16px 0;
     width: 100%;
     flex: 1;
+
+    &:disabled {
+      background-color: transparent;
+      color: var(--graphic-elements);
+    }
   }
 
   input::-webkit-outer-spin-button,

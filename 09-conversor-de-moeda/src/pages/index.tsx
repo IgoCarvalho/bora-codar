@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { ArrowsExchange } from '@/assets/icons/ArrowsExchange';
 import { CurrencyInput } from '@/components/CurrencyInput/CurrencyInput';
+import { getCurrencies, getExchanges } from '@/services/api';
 import { Currency } from '@/types/currency';
 
 import styles from '@/styles/Home.module.scss';
@@ -18,39 +19,51 @@ export default function Home({ currencies, exchanges }: HomeProps) {
   const [rightValue, setRightValue] = useState('');
   const [leftCurrency, setLeftCurrency] = useState('USD');
   const [rightCurrency, setRightCurrency] = useState('BRL');
+  const [isLoading, setIsLoading] = useState(false);
+  const [currencyExchanges, setCurrencyExchanges] =
+    useState<HomeProps['exchanges']>(exchanges);
 
   const lefInputName = 'left-currency';
   const rightInputName = 'right-currency';
 
   function handleInputValue(inputName: string, value: string) {
-    const exchange = exchanges[rightCurrency];
+    const exchange = currencyExchanges[rightCurrency];
 
     if (inputName === lefInputName) {
       setLeftValue(value);
 
       const rightValueCalculated = Number(value) * exchange;
       setRightValue(rightValueCalculated.toFixed(2));
-      console.log(rightValueCalculated);
     } else {
       setRightValue(value);
 
       const leftValueCalculated = Number(value) / exchange;
       setLeftValue(leftValueCalculated.toFixed(2));
-      console.log(leftValueCalculated);
     }
   }
 
-  function handleCurrencyChange(inputName: string, currency: string) {
-    let exchange = exchanges[rightCurrency];
+  async function handleCurrencyChange(inputName: string, currency: string) {
+    let exchange = currencyExchanges[rightCurrency];
 
     if (inputName === lefInputName) {
       setLeftCurrency(currency);
+      setIsLoading(true);
 
-      // const rightValueCalculated = Number(leftValue) * exchange;
-      // setRightValue(rightValueCalculated.toFixed(2));
+      const { data: exchangesData }: ExchangesResponse = await getExchanges(
+        currency,
+        true
+      );
+
+      setCurrencyExchanges(exchangesData);
+
+      exchange = exchangesData[rightCurrency];
+      const rightValueCalculated = Number(leftValue) * exchange;
+
+      setRightValue(rightValueCalculated.toFixed(2));
+      setIsLoading(false);
     } else {
       setRightCurrency(currency);
-      exchange = exchanges[currency];
+      exchange = currencyExchanges[currency];
 
       const rightValueCalculated = Number(leftValue) * exchange;
       setRightValue(rightValueCalculated.toFixed(2));
@@ -82,9 +95,9 @@ export default function Home({ currencies, exchanges }: HomeProps) {
               value={leftValue}
               currency={leftCurrency}
               currencies={currencies}
-              defaultCurrency="USD"
               onChangeValue={handleInputValue}
               onChangeCurrency={handleCurrencyChange}
+              disabled={isLoading}
             />
             <ArrowsExchange />
             <CurrencyInput
@@ -92,9 +105,9 @@ export default function Home({ currencies, exchanges }: HomeProps) {
               value={rightValue}
               currency={rightCurrency}
               currencies={currencies}
-              defaultCurrency="BRL"
               onChangeValue={handleInputValue}
               onChangeCurrency={handleCurrencyChange}
+              disabled={isLoading}
             />
           </div>
         </div>
@@ -112,28 +125,9 @@ type ExchangesResponse = {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const currenciesResponse = await fetch(
-    'https://api.freecurrencyapi.com/v1/currencies',
-    {
-      headers: {
-        apikey: process.env.API_KEY || '',
-      },
-    }
-  );
-  const { data: currenciesData }: CurrenciesResponse =
-    await currenciesResponse.json();
+  const { data: currenciesData }: CurrenciesResponse = await getCurrencies();
 
-  const exchangesResponse = await fetch(
-    'https://api.freecurrencyapi.com/v1/latest?base_currency=USD',
-    {
-      headers: {
-        apikey: process.env.API_KEY || '',
-      },
-    }
-  );
-
-  const { data: exchangesData }: ExchangesResponse =
-    await exchangesResponse.json();
+  const { data: exchangesData }: ExchangesResponse = await getExchanges();
 
   return {
     props: {

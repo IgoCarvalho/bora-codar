@@ -10,12 +10,14 @@ type SelectProps = {
   currencies: Record<string, Currency>;
   defaultCurrency?: string;
   onChange: (value: Currency) => void;
+  disabled: boolean;
 };
 
 export function Select({
   currencies,
   defaultCurrency = 'USD',
   onChange,
+  disabled = false,
 }: SelectProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const isOpen = useRef(false);
@@ -53,6 +55,7 @@ export function Select({
       onClick={handleTriggerClick}
       onBlur={handleTriggerBlur}
       className={styles.selectContainer}
+      disabled={disabled}
     >
       <div className={styles.selectLabel}>
         <CurrencyFlag

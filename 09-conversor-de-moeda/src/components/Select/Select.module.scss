@@ -18,6 +18,11 @@
     }
   }
 
+  &:disabled {
+    background-color: transparent;
+    color: var(--graphic-elements);
+  }
+
   .selectLabel {
     display: flex;
     align-items: center;
