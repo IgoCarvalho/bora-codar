@@ -1,0 +1,9 @@
+
+:export {
+  highlightColor: var(--highlight);
+  graphicElements: lighten(#94a3b8, 20);
+}
+
+.container {
+  flex: 1;
+}

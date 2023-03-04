@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { ArrowsExchange } from '@/assets/icons/ArrowsExchange';
 import { CurrencyInput } from '@/components/CurrencyInput/CurrencyInput';
+import { ExchangeRateChart } from '@/components/ExchangeRateChart/ExchangeRateChart';
 import { getCurrencies, getExchanges } from '@/services/api';
 import { Currency } from '@/types/currency';
 
@@ -20,8 +21,7 @@ export default function Home({ currencies, exchanges }: HomeProps) {
   const [leftCurrency, setLeftCurrency] = useState('USD');
   const [rightCurrency, setRightCurrency] = useState('BRL');
   const [isLoading, setIsLoading] = useState(false);
-  const [currencyExchanges, setCurrencyExchanges] =
-    useState<HomeProps['exchanges']>(exchanges);
+  const [currencyExchanges, setCurrencyExchanges] = useState<HomeProps['exchanges']>(exchanges);
 
   const lefInputName = 'left-currency';
   const rightInputName = 'right-currency';
@@ -49,10 +49,7 @@ export default function Home({ currencies, exchanges }: HomeProps) {
       setLeftCurrency(currency);
       setIsLoading(true);
 
-      const { data: exchangesData }: ExchangesResponse = await getExchanges(
-        currency,
-        true
-      );
+      const { data: exchangesData }: ExchangesResponse = await getExchanges(currency, true);
 
       setCurrencyExchanges(exchangesData);
 
@@ -78,10 +75,7 @@ export default function Home({ currencies, exchanges }: HomeProps) {
     <>
       <Head>
         <title>Conversor de Moedas</title>
-        <meta
-          name="description"
-          content="Aplicação para conversão de moedas e seu histórico"
-        />
+        <meta name="description" content="Aplicação para conversão de moedas e seu histórico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -109,6 +103,12 @@ export default function Home({ currencies, exchanges }: HomeProps) {
               onChangeCurrency={handleCurrencyChange}
               disabled={isLoading}
             />
+          </div>
+
+          <div className={styles.chartContainer}>
+            <h2>Taxa de câmbio</h2>
+
+            <ExchangeRateChart />
           </div>
         </div>
       </main>

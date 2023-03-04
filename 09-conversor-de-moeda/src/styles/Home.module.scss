@@ -30,3 +30,15 @@
     min-width: 24px;
   }
 }
+
+.chartContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 64px;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
