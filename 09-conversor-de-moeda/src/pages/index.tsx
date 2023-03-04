@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import { useEffect, useState } from 'react';
 
 import { ArrowsExchange } from '@/assets/icons/ArrowsExchange';
 import { CurrencyInput } from '@/components/CurrencyInput/CurrencyInput';
@@ -9,9 +10,57 @@ import styles from '@/styles/Home.module.scss';
 
 type HomeProps = {
   currencies: Record<string, Currency>;
+  exchanges: Record<string, number>;
 };
 
-export default function Home({ currencies }: HomeProps) {
+export default function Home({ currencies, exchanges }: HomeProps) {
+  const [leftValue, setLeftValue] = useState('');
+  const [rightValue, setRightValue] = useState('');
+  const [leftCurrency, setLeftCurrency] = useState('USD');
+  const [rightCurrency, setRightCurrency] = useState('BRL');
+
+  const lefInputName = 'left-currency';
+  const rightInputName = 'right-currency';
+
+  function handleInputValue(inputName: string, value: string) {
+    const exchange = exchanges[rightCurrency];
+
+    if (inputName === lefInputName) {
+      setLeftValue(value);
+
+      const rightValueCalculated = Number(value) * exchange;
+      setRightValue(rightValueCalculated.toFixed(2));
+      console.log(rightValueCalculated);
+    } else {
+      setRightValue(value);
+
+      const leftValueCalculated = Number(value) / exchange;
+      setLeftValue(leftValueCalculated.toFixed(2));
+      console.log(leftValueCalculated);
+    }
+  }
+
+  function handleCurrencyChange(inputName: string, currency: string) {
+    let exchange = exchanges[rightCurrency];
+
+    if (inputName === lefInputName) {
+      setLeftCurrency(currency);
+
+      // const rightValueCalculated = Number(leftValue) * exchange;
+      // setRightValue(rightValueCalculated.toFixed(2));
+    } else {
+      setRightCurrency(currency);
+      exchange = exchanges[currency];
+
+      const rightValueCalculated = Number(leftValue) * exchange;
+      setRightValue(rightValueCalculated.toFixed(2));
+    }
+  }
+
+  useEffect(() => {
+    handleInputValue(lefInputName, '1');
+  }, []);
+
   return (
     <>
       <Head>
@@ -28,9 +77,25 @@ export default function Home({ currencies }: HomeProps) {
           <h1>Conversor de moedas</h1>
 
           <div className={styles.currencyInputs}>
-            <CurrencyInput currencies={currencies} defaultCurrency="USD" />
+            <CurrencyInput
+              name={lefInputName}
+              value={leftValue}
+              currency={leftCurrency}
+              currencies={currencies}
+              defaultCurrency="USD"
+              onChangeValue={handleInputValue}
+              onChangeCurrency={handleCurrencyChange}
+            />
             <ArrowsExchange />
-            <CurrencyInput currencies={currencies} defaultCurrency="BRL" />
+            <CurrencyInput
+              name={rightInputName}
+              value={rightValue}
+              currency={rightCurrency}
+              currencies={currencies}
+              defaultCurrency="BRL"
+              onChangeValue={handleInputValue}
+              onChangeCurrency={handleCurrencyChange}
+            />
           </div>
         </div>
       </main>
@@ -40,6 +105,10 @@ export default function Home({ currencies }: HomeProps) {
 
 type CurrenciesResponse = {
   data: Record<string, Currency>;
+};
+
+type ExchangesResponse = {
+  data: Record<string, number>;
 };
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -54,9 +123,22 @@ export const getStaticProps: GetStaticProps = async () => {
   const { data: currenciesData }: CurrenciesResponse =
     await currenciesResponse.json();
 
+  const exchangesResponse = await fetch(
+    'https://api.freecurrencyapi.com/v1/latest?base_currency=USD',
+    {
+      headers: {
+        apikey: process.env.API_KEY || '',
+      },
+    }
+  );
+
+  const { data: exchangesData }: ExchangesResponse =
+    await exchangesResponse.json();
+
   return {
     props: {
       currencies: currenciesData,
+      exchanges: exchangesData,
     },
     revalidate: 60 * 60 * 24, // 24 hours
   };
