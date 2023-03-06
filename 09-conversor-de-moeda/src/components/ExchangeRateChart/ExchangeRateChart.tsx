@@ -1,5 +1,13 @@
 import { useState } from 'react';
-import { Area, CartesianGrid, ComposedChart, ResponsiveContainer, Tooltip, YAxis } from 'recharts';
+import {
+  Area,
+  CartesianGrid,
+  ComposedChart,
+  ResponsiveContainer,
+  Tooltip,
+  YAxis,
+  TooltipProps,
+} from 'recharts';
 
 import { ExchangesHistoricalData } from '@/types/currency';
 
@@ -25,6 +33,28 @@ type ExchangeRateChartProps = {
   onPeriodChange: (period: ExchangePeriod) => void;
   isLoading: boolean;
 };
+
+const formatNumber = (value: number) => value.toLocaleString('pt-BR');
+
+function CustomTooltip({ active, payload }: TooltipProps<number, string>) {
+  if (!active || !payload || !payload.length) {
+    return null;
+  }
+
+  const formattedDate = new Intl.DateTimeFormat('pt-BR', {
+    month: 'short',
+    day: '2-digit',
+    weekday: 'short',
+  }).format(new Date(payload[0].payload.date));
+
+  const formattedValue = formatNumber(Number(payload[0].value));
+
+  return (
+    <div className={styles.customTooltip}>
+      <p>{`${formattedValue} ${formattedDate}`}</p>
+    </div>
+  );
+}
 
 export function ExchangeRateChart({
   exchangesData,
@@ -70,9 +100,9 @@ export function ExchangeRateChart({
             tickLine={false}
             tickMargin={25}
             tick={{ fontSize: 12 }}
-            tickFormatter={(value: number) => value.toLocaleString('pt-BR')}
+            tickFormatter={formatNumber}
           />
-          <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
           <CartesianGrid vertical={false} stroke={styles.graphicElements} />
 
           <Area
@@ -81,6 +111,7 @@ export function ExchangeRateChart({
             fillOpacity={1}
             fill="url(#colorUv)"
             stroke={styles.highlightColor}
+            activeDot={{ stroke: styles.highlightColor }}
           />
         </ComposedChart>
       </ResponsiveContainer>
