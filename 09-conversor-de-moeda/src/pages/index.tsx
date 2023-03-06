@@ -1,12 +1,16 @@
 import { GetStaticProps } from 'next';
-import Head from 'next/head';
 import { useEffect, useState } from 'react';
 
 import { ArrowsExchange } from '@/assets/icons/ArrowsExchange';
 import { CurrencyInput } from '@/components/CurrencyInput/CurrencyInput';
 import { ExchangeRateChart } from '@/components/ExchangeRateChart/ExchangeRateChart';
 import { ExchangePeriod, getCurrencies, getExchanges, getHistorical } from '@/services/api';
-import { CurrenciesData, ExchangesData, ExchangesHistoricalData } from '@/types/currency';
+import {
+  CurrenciesData,
+  ExchangeHistoricalPeriod,
+  ExchangesData,
+  ExchangesHistoricalData,
+} from '@/types/currency';
 
 import styles from '@/styles/Home.module.scss';
 
@@ -25,6 +29,8 @@ export default function Home({ currencies, exchanges, exchangesHistorical }: Hom
   const [currencyExchanges, setCurrencyExchanges] = useState<ExchangesData>(exchanges);
   const [currencyExchangesHistorical, setCurrencyExchangesHistorical] =
     useState<ExchangesHistoricalData>(exchangesHistorical);
+  const [currentExchangeHistoricalPeriod, setCurrentExchangeHistoricalPeriod] =
+    useState<ExchangeHistoricalPeriod>('1M');
 
   const lefInputName = 'left-currency';
   const rightInputName = 'right-currency';
@@ -61,22 +67,31 @@ export default function Home({ currencies, exchanges, exchangesHistorical }: Hom
 
       setRightValue(rightValueCalculated.toFixed(2));
       setIsLoading(false);
+
+      handleExchangesHistoricalChange(currentExchangeHistoricalPeriod, currency, rightCurrency);
     } else {
       setRightCurrency(currency);
       exchange = currencyExchanges[currency];
 
       const rightValueCalculated = Number(leftValue) * exchange;
       setRightValue(rightValueCalculated.toFixed(2));
+
+      handleExchangesHistoricalChange(currentExchangeHistoricalPeriod, leftCurrency, currency);
     }
   }
 
-  async function handleExchangesHistoricalChange(period: ExchangePeriod) {
+  async function handleExchangesHistoricalChange(
+    period: ExchangePeriod,
+    fromCurrency?: string,
+    toCurrency?: string
+  ) {
+    setCurrentExchangeHistoricalPeriod(period);
     setIsLoading(true);
 
     try {
       const { data: exchangesHistoricalData }: ExchangeHistoricalResponse = await getHistorical(
-        leftCurrency,
-        rightCurrency,
+        fromCurrency ?? leftCurrency,
+        toCurrency ?? rightCurrency,
         new Date(),
         period,
         true
@@ -96,12 +111,6 @@ export default function Home({ currencies, exchanges, exchangesHistorical }: Hom
 
   return (
     <>
-      <Head>
-        <title>Conversor de Moedas</title>
-        <meta name="description" content="Aplicação para conversão de moedas e seu histórico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
       <main className={styles.container}>
         <div className={styles.card}>
           <h1>Conversor de moedas</h1>
@@ -134,6 +143,7 @@ export default function Home({ currencies, exchanges, exchangesHistorical }: Hom
             <ExchangeRateChart
               exchangesData={currencyExchangesHistorical}
               onPeriodChange={handleExchangesHistoricalChange}
+              exchangeHistoricalPeriod={currentExchangeHistoricalPeriod}
               isLoading={isLoading}
             />
           </div>

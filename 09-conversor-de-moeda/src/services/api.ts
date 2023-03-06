@@ -1,3 +1,5 @@
+import { getUTCDate } from '@/utils/getUTCDate';
+
 export async function getCurrencies() {
   const currenciesResponse = await fetch('https://api.freecurrencyapi.com/v1/currencies', {
     headers: {
@@ -66,9 +68,8 @@ const dateFromParser: Record<ExchangePeriod, (date: Date) => Date> = {
 };
 
 const formatDate = (originalDate: Date) => {
-  const date = new Date(originalDate);
+  const date = getUTCDate(originalDate);
 
-  date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
   date.setDate(date.getDate() - 1);
 
   return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;

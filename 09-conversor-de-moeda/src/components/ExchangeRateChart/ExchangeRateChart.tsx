@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import {
   Area,
   CartesianGrid,
@@ -10,15 +9,12 @@ import {
 } from 'recharts';
 
 import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { ExchangesHistoricalData } from '@/types/currency';
-
-const currencyCode = 'BRL';
+import { ExchangeHistoricalPeriod, ExchangesHistoricalData } from '@/types/currency';
+import { getUTCDate } from '@/utils/getUTCDate';
 
 import styles from './ExchangeRateChart.module.scss';
 
-type ExchangePeriod = '1D' | '5D' | '1M' | '1Y' | '5Y' | 'MAX';
-
-const exchangePeriods: Record<ExchangePeriod, string> = {
+const exchangePeriods: Record<ExchangeHistoricalPeriod, string> = {
   '1D': '1D',
   '5D': '5D',
   '1M': '1M',
@@ -27,14 +23,13 @@ const exchangePeriods: Record<ExchangePeriod, string> = {
   MAX: 'Máx',
 };
 
-const unavailablePeriods: ExchangePeriod[] = ['5Y', 'MAX'];
+const unavailablePeriods: ExchangeHistoricalPeriod[] = ['5Y', 'MAX'];
 
 type ExchangeRateChartProps = {
-  fromCurrency?: string;
-  toCurrency?: string;
   exchangesData: ExchangesHistoricalData;
-  onPeriodChange: (period: ExchangePeriod) => void;
-  isLoading: boolean;
+  onPeriodChange: (period: ExchangeHistoricalPeriod) => void;
+  exchangeHistoricalPeriod: ExchangeHistoricalPeriod;
+  isLoading?: boolean;
 };
 
 const formatNumber = (value: number) => value.toLocaleString('pt-BR');
@@ -48,7 +43,7 @@ function CustomTooltip({ active, payload }: TooltipProps<number, string>) {
     month: 'short',
     day: '2-digit',
     weekday: 'short',
-  }).format(new Date(payload[0].payload.date));
+  }).format(getUTCDate(payload[0].payload.date));
 
   const formattedValue = formatNumber(Number(payload[0].value));
 
@@ -62,22 +57,20 @@ function CustomTooltip({ active, payload }: TooltipProps<number, string>) {
 export function ExchangeRateChart({
   exchangesData,
   onPeriodChange,
+  exchangeHistoricalPeriod,
   isLoading = false,
 }: ExchangeRateChartProps) {
-  const [currentExchangePeriod, setCurrentExchangePeriod] = useState<ExchangePeriod>('1M');
-
   const isMobile = useMediaQuery('(max-width: 425px)');
 
-  function handlePeriodChange(period: ExchangePeriod) {
+  function handlePeriodChange(period: ExchangeHistoricalPeriod) {
     return async () => {
-      setCurrentExchangePeriod(period);
       onPeriodChange(period);
     };
   }
 
   const parsedData = Object.keys(exchangesData || []).map((exchangeDate) => ({
     date: exchangeDate,
-    value: Number(exchangesData[exchangeDate][currencyCode].toFixed(2)),
+    value: Number(Object.values(exchangesData[exchangeDate])[0].toFixed(2)),
   }));
 
   return (
@@ -103,8 +96,8 @@ export function ExchangeRateChart({
             domain={['dataMin', 'dataMax']}
             axisLine={false}
             tickLine={false}
-            tickMargin={isMobile ? 8 : 25}
-            width={isMobile ? 40 : 60}
+            tickMargin={isMobile ? 8 : 16}
+            width={60}
             tick={{ fontSize: 12 }}
             tickFormatter={formatNumber}
           />
@@ -127,9 +120,11 @@ export function ExchangeRateChart({
           <button
             type="button"
             key={periodKey}
-            className={`${currentExchangePeriod === periodKey && styles.active}`}
-            onClick={handlePeriodChange(periodKey as ExchangePeriod)}
-            disabled={isLoading || unavailablePeriods.includes(periodKey as ExchangePeriod)}
+            className={`${exchangeHistoricalPeriod === periodKey && styles.active}`}
+            onClick={handlePeriodChange(periodKey as ExchangeHistoricalPeriod)}
+            disabled={
+              isLoading || unavailablePeriods.includes(periodKey as ExchangeHistoricalPeriod)
+            }
           >
             {periodText}
           </button>
