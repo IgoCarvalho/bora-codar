@@ -27,6 +27,8 @@ const exchangePeriods: Record<ExchangePeriod, string> = {
   MAX: 'Máx',
 };
 
+const unavailablePeriods: ExchangePeriod[] = ['5Y', 'MAX'];
+
 type ExchangeRateChartProps = {
   fromCurrency?: string;
   toCurrency?: string;
@@ -127,7 +129,7 @@ export function ExchangeRateChart({
             key={periodKey}
             className={`${currentExchangePeriod === periodKey && styles.active}`}
             onClick={handlePeriodChange(periodKey as ExchangePeriod)}
-            disabled={isLoading}
+            disabled={isLoading || unavailablePeriods.includes(periodKey as ExchangePeriod)}
           >
             {periodText}
           </button>
