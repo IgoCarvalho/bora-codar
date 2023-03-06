@@ -58,6 +58,11 @@
         background-color: var(--surface-secondary);
       }
     }
+
+    @media screen and (max-width: 425px) {
+      left: auto;
+      right: 0;
+    }
   }
 }
 

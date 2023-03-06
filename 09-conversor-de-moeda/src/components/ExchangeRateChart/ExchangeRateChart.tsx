@@ -5,10 +5,11 @@ import {
   ComposedChart,
   ResponsiveContainer,
   Tooltip,
-  YAxis,
   TooltipProps,
+  YAxis,
 } from 'recharts';
 
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { ExchangesHistoricalData } from '@/types/currency';
 
 const currencyCode = 'BRL';
@@ -63,6 +64,8 @@ export function ExchangeRateChart({
 }: ExchangeRateChartProps) {
   const [currentExchangePeriod, setCurrentExchangePeriod] = useState<ExchangePeriod>('1M');
 
+  const isMobile = useMediaQuery('(max-width: 425px)');
+
   function handlePeriodChange(period: ExchangePeriod) {
     return async () => {
       setCurrentExchangePeriod(period);
@@ -77,10 +80,10 @@ export function ExchangeRateChart({
 
   return (
     <div className={styles.container}>
-      <ResponsiveContainer height={300}>
+      <ResponsiveContainer height={isMobile ? 160 : 300}>
         <ComposedChart
           width={600}
-          height={300}
+          height={isMobile ? 160 : 300}
           data={parsedData}
           margin={{
             top: 10,
@@ -98,7 +101,8 @@ export function ExchangeRateChart({
             domain={['dataMin', 'dataMax']}
             axisLine={false}
             tickLine={false}
-            tickMargin={25}
+            tickMargin={isMobile ? 8 : 25}
+            width={isMobile ? 40 : 60}
             tick={{ fontSize: 12 }}
             tickFormatter={formatNumber}
           />
