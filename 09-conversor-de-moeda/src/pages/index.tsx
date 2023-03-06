@@ -5,23 +5,26 @@ import { useEffect, useState } from 'react';
 import { ArrowsExchange } from '@/assets/icons/ArrowsExchange';
 import { CurrencyInput } from '@/components/CurrencyInput/CurrencyInput';
 import { ExchangeRateChart } from '@/components/ExchangeRateChart/ExchangeRateChart';
-import { getCurrencies, getExchanges } from '@/services/api';
-import { Currency } from '@/types/currency';
+import { ExchangePeriod, getCurrencies, getExchanges, getHistorical } from '@/services/api';
+import { CurrenciesData, ExchangesData, ExchangesHistoricalData } from '@/types/currency';
 
 import styles from '@/styles/Home.module.scss';
 
 type HomeProps = {
-  currencies: Record<string, Currency>;
-  exchanges: Record<string, number>;
+  currencies: CurrenciesData;
+  exchanges: ExchangesData;
+  exchangesHistorical: ExchangesHistoricalData;
 };
 
-export default function Home({ currencies, exchanges }: HomeProps) {
+export default function Home({ currencies, exchanges, exchangesHistorical }: HomeProps) {
   const [leftValue, setLeftValue] = useState('');
   const [rightValue, setRightValue] = useState('');
   const [leftCurrency, setLeftCurrency] = useState('USD');
   const [rightCurrency, setRightCurrency] = useState('BRL');
   const [isLoading, setIsLoading] = useState(false);
-  const [currencyExchanges, setCurrencyExchanges] = useState<HomeProps['exchanges']>(exchanges);
+  const [currencyExchanges, setCurrencyExchanges] = useState<ExchangesData>(exchanges);
+  const [currencyExchangesHistorical, setCurrencyExchangesHistorical] =
+    useState<ExchangesHistoricalData>(exchangesHistorical);
 
   const lefInputName = 'left-currency';
   const rightInputName = 'right-currency';
@@ -67,6 +70,26 @@ export default function Home({ currencies, exchanges }: HomeProps) {
     }
   }
 
+  async function handleExchangesHistoricalChange(period: ExchangePeriod) {
+    setIsLoading(true);
+
+    try {
+      const { data: exchangesHistoricalData }: ExchangeHistoricalResponse = await getHistorical(
+        leftCurrency,
+        rightCurrency,
+        new Date(),
+        period,
+        true
+      );
+
+      setCurrencyExchangesHistorical(exchangesHistoricalData);
+    } catch {
+      alert('Ocorreu algum erro, tente novamente mais tarde!');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   useEffect(() => {
     handleInputValue(lefInputName, '1');
   }, []);
@@ -108,7 +131,11 @@ export default function Home({ currencies, exchanges }: HomeProps) {
           <div className={styles.chartContainer}>
             <h2>Taxa de câmbio</h2>
 
-            <ExchangeRateChart />
+            <ExchangeRateChart
+              exchangesData={currencyExchangesHistorical}
+              onPeriodChange={handleExchangesHistoricalChange}
+              isLoading={isLoading}
+            />
           </div>
         </div>
       </main>
@@ -117,11 +144,15 @@ export default function Home({ currencies, exchanges }: HomeProps) {
 }
 
 type CurrenciesResponse = {
-  data: Record<string, Currency>;
+  data: CurrenciesData;
 };
 
 type ExchangesResponse = {
-  data: Record<string, number>;
+  data: ExchangesData;
+};
+
+type ExchangeHistoricalResponse = {
+  data: ExchangesHistoricalData;
 };
 
 export const getStaticProps: GetStaticProps = async () => {
@@ -129,10 +160,18 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const { data: exchangesData }: ExchangesResponse = await getExchanges();
 
+  const { data: exchangesHistoricalData }: ExchangeHistoricalResponse = await getHistorical(
+    'USD',
+    'BRL',
+    new Date(),
+    '1M'
+  );
+
   return {
     props: {
       currencies: currenciesData,
       exchanges: exchangesData,
+      exchangesHistorical: exchangesHistoricalData,
     },
     revalidate: 60 * 60 * 24, // 24 hours
   };

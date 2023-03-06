@@ -1,107 +1,50 @@
+import { useState } from 'react';
 import { Area, CartesianGrid, ComposedChart, ResponsiveContainer, Tooltip, YAxis } from 'recharts';
 
-type ExchangeData = Record<string, { [key: string]: number }>;
+import { ExchangesHistoricalData } from '@/types/currency';
 
 const currencyCode = 'BRL';
 
-const exchangesData: ExchangeData = {
-  '2023-02-01': {
-    BRL: 5.055009,
-  },
-  '2023-02-02': {
-    BRL: 5.050706,
-  },
-  '2023-02-03': {
-    BRL: 5.15251,
-  },
-  '2023-02-04': {
-    BRL: 5.15181,
-  },
-  '2023-02-05': {
-    BRL: 5.151806,
-  },
-  '2023-02-06': {
-    BRL: 5.147205,
-  },
-  '2023-02-07': {
-    BRL: 5.210806,
-  },
-  '2023-02-08': {
-    BRL: 5.201006,
-  },
-  '2023-02-09': {
-    BRL: 5.29101,
-  },
-  '2023-02-10': {
-    BRL: 5.215605,
-  },
-  '2023-02-11': {
-    BRL: 5.215147,
-  },
-  '2023-02-12': {
-    BRL: 5.215148,
-  },
-  '2023-02-13': {
-    BRL: 5.159908,
-  },
-  '2023-02-14': {
-    BRL: 5.192607,
-  },
-  '2023-02-15': {
-    BRL: 5.21951,
-  },
-  '2023-02-16': {
-    BRL: 5.21831,
-  },
-  '2023-02-17': {
-    BRL: 5.168008,
-  },
-  '2023-02-18': {
-    BRL: 5.16641,
-  },
-  '2023-02-19': {
-    BRL: 5.188574,
-  },
-  '2023-02-20': {
-    BRL: 5.168008,
-  },
-  '2023-02-21': {
-    BRL: 5.168008,
-  },
-  '2023-02-22': {
-    BRL: 5.152709,
-  },
-  '2023-02-23': {
-    BRL: 5.137706,
-  },
-  '2023-02-24': {
-    BRL: 5.210507,
-  },
-  '2023-02-25': {
-    BRL: 5.21041,
-  },
-  '2023-02-26': {
-    BRL: 5.210407,
-  },
-  '2023-02-27': {
-    BRL: 5.201207,
-  },
-  '2023-02-28': {
-    BRL: 5.237308,
-  },
-  '2023-03-01': {
-    BRL: 5.179806,
-  },
-};
-
-const parsedData = Object.keys(exchangesData).map((exchangeDate) => ({
-  date: exchangeDate,
-  value: Number(exchangesData[exchangeDate][currencyCode].toFixed(2)),
-}));
-
 import styles from './ExchangeRateChart.module.scss';
 
-export function ExchangeRateChart() {
+type ExchangePeriod = '1D' | '5D' | '1M' | '1Y' | '5Y' | 'MAX';
+
+const exchangePeriods: Record<ExchangePeriod, string> = {
+  '1D': '1D',
+  '5D': '5D',
+  '1M': '1M',
+  '1Y': '1A',
+  '5Y': '5A',
+  MAX: 'Máx',
+};
+
+type ExchangeRateChartProps = {
+  fromCurrency?: string;
+  toCurrency?: string;
+  exchangesData: ExchangesHistoricalData;
+  onPeriodChange: (period: ExchangePeriod) => void;
+  isLoading: boolean;
+};
+
+export function ExchangeRateChart({
+  exchangesData,
+  onPeriodChange,
+  isLoading = false,
+}: ExchangeRateChartProps) {
+  const [currentExchangePeriod, setCurrentExchangePeriod] = useState<ExchangePeriod>('1M');
+
+  function handlePeriodChange(period: ExchangePeriod) {
+    return async () => {
+      setCurrentExchangePeriod(period);
+      onPeriodChange(period);
+    };
+  }
+
+  const parsedData = Object.keys(exchangesData || []).map((exchangeDate) => ({
+    date: exchangeDate,
+    value: Number(exchangesData[exchangeDate][currencyCode].toFixed(2)),
+  }));
+
   return (
     <div className={styles.container}>
       <ResponsiveContainer height={300}>
@@ -141,6 +84,20 @@ export function ExchangeRateChart() {
           />
         </ComposedChart>
       </ResponsiveContainer>
+
+      <div className={styles.buttonsContainer}>
+        {Object.entries(exchangePeriods).map(([periodKey, periodText]) => (
+          <button
+            type="button"
+            key={periodKey}
+            className={`${currentExchangePeriod === periodKey && styles.active}`}
+            onClick={handlePeriodChange(periodKey as ExchangePeriod)}
+            disabled={isLoading}
+          >
+            {periodText}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

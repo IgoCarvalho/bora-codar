@@ -7,3 +7,7 @@ export type Currency = {
   code: string;
   name_plural: string;
 };
+
+export type CurrenciesData = Record<string, Currency>;
+export type ExchangesData = Record<string, number>;
+export type ExchangesHistoricalData = Record<string, { [key: string]: number }>;

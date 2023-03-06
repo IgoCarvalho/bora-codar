@@ -7,3 +7,29 @@
 .container {
   flex: 1;
 }
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-left: 60px;
+
+  button {
+    background-color: transparent;
+    padding: 4px 8px;
+    font-size: 14px;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+
+    &.active {
+      color: #FFFFFF;
+      background-color: var(--highlight);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+}
