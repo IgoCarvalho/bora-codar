@@ -70,7 +70,7 @@ export function ExchangeRateChart({
 
   const parsedData = Object.keys(exchangesData || []).map((exchangeDate) => ({
     date: exchangeDate,
-    value: Number(Object.values(exchangesData[exchangeDate])[0].toFixed(2)),
+    value: Number(Object.values(exchangesData[exchangeDate])[0]),
   }));
 
   return (
