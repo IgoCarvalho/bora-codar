@@ -22,11 +22,9 @@ export function Select({
   const buttonRef = useRef<HTMLButtonElement>(null);
   const isOpen = useRef(false);
 
-  const [currentCurrency, setCurrentCurrency] = useState<Currency | null>(
-    () => {
-      return currencies[defaultCurrency];
-    }
-  );
+  const [currentCurrency, setCurrentCurrency] = useState<Currency | null>(() => {
+    return currencies[defaultCurrency];
+  });
 
   function handleTriggerClick() {
     if (isOpen.current) {
@@ -58,10 +56,7 @@ export function Select({
       disabled={disabled}
     >
       <div className={styles.selectLabel}>
-        <CurrencyFlag
-          className={styles.flag}
-          currency={currentCurrency?.code || 'USD'}
-        />
+        <CurrencyFlag className={styles.flag} currency={currentCurrency?.code || 'USD'} />
         <span>{currentCurrency?.code || 'USD'}</span>
         <ChevronDown />
       </div>

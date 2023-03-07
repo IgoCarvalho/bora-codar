@@ -36,9 +36,7 @@ export function CurrencyInput({
 
   return (
     <div className={styles.container}>
-      <div
-        className={`${styles.inputContainer} ${disabled && styles.disabled}`}
-      >
+      <div className={`${styles.inputContainer} ${disabled && styles.disabled}`}>
         <span>{currentCurrency.symbol_native || '$'}</span>
         <input
           type="number"
