@@ -33,6 +33,7 @@ type ExchangeRateChartProps = {
 };
 
 const formatNumber = (value: number) => value.toLocaleString('pt-BR');
+const formatYAxisValue = (value: number) => value.toLocaleString('pt-BR', { notation: 'compact' });
 
 function CustomTooltip({ active, payload }: TooltipProps<number, string>) {
   if (!active || !payload || !payload.length) {
@@ -96,10 +97,10 @@ export function ExchangeRateChart({
             domain={['dataMin', 'dataMax']}
             axisLine={false}
             tickLine={false}
-            tickMargin={isMobile ? 8 : 16}
-            width={60}
+            tickMargin={isMobile ? 8 : 25}
+            width={isMobile ? 40 : 60}
             tick={{ fontSize: 12 }}
-            tickFormatter={formatNumber}
+            tickFormatter={formatYAxisValue}
           />
           <Tooltip content={<CustomTooltip />} />
           <CartesianGrid vertical={false} stroke={styles.graphicElements} />
