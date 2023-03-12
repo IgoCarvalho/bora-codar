@@ -1,3 +1,4 @@
+import { ExchangesHistoricalData } from '@/types/currency';
 import { getUTCDate } from '@/utils/getUTCDate';
 
 export async function getCurrencies() {
@@ -96,6 +97,26 @@ export async function getHistoricalRequest(
   return exchangeHistoricalResponse.json();
 }
 
+type HistoricalDate = {
+  from: Date;
+  to: Date;
+};
+
+function getHistoricalYears(date: Date, amount: number) {
+  const historicalDates: HistoricalDate[] = [];
+
+  let currentDate = date;
+
+  for (let i = 0; i < amount; i++) {
+    const oneYearAgo = dateFromParser['1Y'](currentDate);
+    historicalDates.push({ from: oneYearAgo, to: currentDate });
+
+    currentDate = oneYearAgo;
+  }
+
+  return historicalDates;
+}
+
 export async function getHistorical(
   currencyFrom: string,
   currencyTo: string,
@@ -103,6 +124,28 @@ export async function getHistorical(
   dateFrom: ExchangePeriod,
   localApi = false
 ) {
+  if (dateFrom === '5Y') {
+    const requests = getHistoricalYears(dateTo, 5).map((historicalYear) =>
+      getHistoricalRequest(
+        currencyFrom,
+        currencyTo,
+        formatDate(historicalYear.from),
+        formatDate(historicalYear.to),
+        localApi
+      )
+    );
+
+    const responses = await Promise.all<{ data: ExchangesHistoricalData }>(requests);
+
+    const historicalResponseData: ExchangesHistoricalData = {};
+
+    responses.forEach((res) => {
+      Object.assign(historicalResponseData, res.data);
+    });
+
+    return { data: historicalResponseData };
+  }
+
   const parsedDateFrom = dateFromParser[dateFrom](dateTo);
 
   return getHistoricalRequest(

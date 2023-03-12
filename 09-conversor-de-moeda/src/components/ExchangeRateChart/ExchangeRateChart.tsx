@@ -23,7 +23,7 @@ const exchangePeriods: Record<ExchangeHistoricalPeriod, string> = {
   MAX: 'Máx',
 };
 
-const unavailablePeriods: ExchangeHistoricalPeriod[] = ['5Y', 'MAX'];
+const unavailablePeriods: ExchangeHistoricalPeriod[] = ['MAX'];
 
 type ExchangeRateChartProps = {
   exchangesData: ExchangesHistoricalData;
@@ -44,6 +44,7 @@ function CustomTooltip({ active, payload }: TooltipProps<number, string>) {
     month: 'short',
     day: '2-digit',
     weekday: 'short',
+    year: 'numeric',
   }).format(getUTCDate(payload[0].payload.date));
 
   const formattedValue = formatNumber(Number(payload[0].value));
@@ -69,10 +70,12 @@ export function ExchangeRateChart({
     };
   }
 
-  const parsedData = Object.keys(exchangesData || []).map((exchangeDate) => ({
-    date: exchangeDate,
-    value: Number(Object.values(exchangesData[exchangeDate])[0]),
-  }));
+  const parsedData = Object.keys(exchangesData || [])
+    .sort()
+    .map((exchangeDate) => ({
+      date: exchangeDate,
+      value: Number(Object.values(exchangesData[exchangeDate])[0]),
+    }));
 
   return (
     <div className={styles.container}>
@@ -124,7 +127,9 @@ export function ExchangeRateChart({
             className={`${exchangeHistoricalPeriod === periodKey && styles.active}`}
             onClick={handlePeriodChange(periodKey as ExchangeHistoricalPeriod)}
             disabled={
-              isLoading || unavailablePeriods.includes(periodKey as ExchangeHistoricalPeriod)
+              isLoading ||
+              unavailablePeriods.includes(periodKey as ExchangeHistoricalPeriod) ||
+              exchangeHistoricalPeriod === periodKey
             }
           >
             {periodText}
