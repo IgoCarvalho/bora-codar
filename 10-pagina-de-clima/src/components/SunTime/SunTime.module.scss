@@ -1,0 +1,26 @@
+.sunContainer {
+  width: 277px;
+  height: 244px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--violet-700);
+}
+
+.sunHeader {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 32px;
+
+  p {
+    font-size: 16px;
+    font-weight: 700;
+    color: #dad8f7;
+  }
+}
+.sunClockContainer {
+  padding: 16px;
+  margin-top: auto;
+}

@@ -1,0 +1,94 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.sunContent {
+  display: flex;
+  justify-content: center;
+}
+
+.sunClockContainer {
+  --space: 6px;
+
+  height: 110px;
+  padding: var(--space);
+  overflow: hidden;
+
+  position: relative;
+
+  border-bottom: 1px solid #F6C833;
+
+  .sunCurrentTime {
+    font-size: 14px;
+    font-weight: 700;
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 0);
+  }
+
+  .dot {
+    width: 210px;
+    height: 210px;
+    position: absolute;
+    top: var(--space);
+    left: var(--space);
+    background-color: transparent;
+    border-radius: 50%;
+    z-index: 10;
+
+    transition: transform 300ms;
+
+    transform: rotate(125deg);
+
+    &::before {
+      content: '';
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      position: absolute;
+      background-color: #F6C833;
+      left: 0;
+      top: 50%;
+
+      transform: translate(-50%, 50%);
+    }
+  }
+
+  .sun {
+    position: relative;
+    overflow: hidden;
+    width: 210px;
+    height: 210px;
+    border-radius: 50%;
+    border: 2px #F6C833 dashed;
+
+    .gradient {
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(251, 219, 96, 0.2) 0%, transparent 50%);
+      border-radius: 50%;
+    }
+
+    .progress {
+      background-color: var(--violet-700);
+      position: absolute;
+      z-index: 2;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 75%;
+    }
+
+
+  }
+}
+
+.sunTimes {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 12px;
+
+  font-size: 12px;
+}
