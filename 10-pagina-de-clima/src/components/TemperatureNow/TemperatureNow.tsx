@@ -1,8 +1,8 @@
-import { HumidityIcon } from '../../assets/HumidityIcon';
-import { PinIcon } from '../../assets/PinIcon';
-import { RainIcon } from '../../assets/RainIcon';
-import { WeatherCloudIcon } from '../../assets/WeatherCloudIcon';
-import { WindIcon } from '../../assets/WindIcon';
+import { HumidityIcon } from '../icons/HumidityIcon';
+import { PinIcon } from '../icons/PinIcon';
+import { RainIcon } from '../icons/RainIcon';
+import { WeatherCloudIcon } from '../icons/WeatherCloudIcon';
+import { WindIcon } from '../icons/WindIcon';
 
 import styles from './TemperatureNow.module.scss';
 
