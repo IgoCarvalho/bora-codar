@@ -5,7 +5,7 @@ import { TemperatureNow } from '../../components/TemperatureNow/TemperatureNow';
 import { WeekWeather } from '../../components/WeekWeather/WeekWeather';
 import { getCurrentWeatherInfo } from '../../services/api';
 import { WeatherResponse } from '../../types/weatherApi';
-import { getAirQualityData, getCurrentDayData } from '../../utils/parseWeatherData';
+import { getAirQualityData, getCurrentDayData, getSunTimeData } from '../../utils/parseWeatherData';
 
 import styles from './Home.module.scss';
 
@@ -30,10 +30,12 @@ export function Home() {
     if (weatherData) {
       const currentDayData = getCurrentDayData(weatherData);
       const airQualityData = getAirQualityData(weatherData);
+      const sunTimeData = getSunTimeData(weatherData);
 
       return {
         currentDayData,
         airQualityData,
+        sunTimeData,
       };
     }
   }
@@ -53,7 +55,11 @@ export function Home() {
       <div className={styles.rightContent}>
         <AirQuality airData={data?.airQualityData} />
 
-        <SunTime />
+        <SunTime
+          currentTime={data?.sunTimeData.currentTime || ''}
+          sunriseTime={data?.sunTimeData.sunriseTime || ''}
+          sunsetTime={data?.sunTimeData.sunsetTime || ''}
+        />
 
         <WeekWeather />
       </div>

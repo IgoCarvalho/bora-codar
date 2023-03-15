@@ -1,11 +1,17 @@
 import styles from './SunClock.module.scss';
 
-export function SunClock() {
+type SunClockProps = {
+  currentTime: string;
+  sunriseTime: string;
+  sunsetTime: string;
+};
+
+export function SunClock({ currentTime, sunriseTime, sunsetTime }: SunClockProps) {
   return (
     <div className={styles.container}>
       <div className={styles.sunContent}>
         <div className={styles.sunClockContainer}>
-          <p className={styles.sunCurrentTime}>16:01</p>
+          <p className={styles.sunCurrentTime}>{currentTime}</p>
 
           <div className={styles.dot}></div>
           <div className={styles.sun}>
@@ -16,8 +22,8 @@ export function SunClock() {
       </div>
 
       <div className={styles.sunTimes}>
-        <span>6:12</span>
-        <span>18:52</span>
+        <span>{sunriseTime}</span>
+        <span>{sunsetTime}</span>
       </div>
     </div>
   );
