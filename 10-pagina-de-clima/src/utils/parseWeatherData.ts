@@ -24,8 +24,15 @@ export function getCurrentDayData(data: WeatherResponse) {
 }
 
 export function getAirQualityData(data: WeatherResponse) {
+  const { pm2_5, us_aqi, ...airData } = data.current.air_quality;
+
+  const usAqi = data.current.air_quality['us-epa-index'];
+
   const airQualityData = {
-    ...data.current.air_quality,
+    usAqi,
+    usAqiCount: us_aqi,
+    pm25: pm2_5,
+    ...airData,
   };
 
   return airQualityData;

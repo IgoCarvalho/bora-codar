@@ -5,6 +5,8 @@ type AirQuality = {
   no2: number;
   o3: number;
   co: number;
+  us_aqi: number;
+  'us-epa-index': number;
 };
 
 type CurrentWeather = {
@@ -37,5 +39,11 @@ export type WeatherResponse = {
   current: CurrentWeather;
   forecast: {
     forecastday: ForecastDay[];
+  };
+};
+
+export type AirQualityResponse = {
+  hourly: {
+    us_aqi: number[];
   };
 };
