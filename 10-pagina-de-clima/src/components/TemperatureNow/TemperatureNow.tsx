@@ -1,7 +1,7 @@
 import { HumidityIcon } from '../icons/HumidityIcon';
 import { PinIcon } from '../icons/PinIcon';
 import { RainIcon } from '../icons/RainIcon';
-import { WeatherCloudIcon } from '../icons/WeatherCloudIcon';
+import { WeatherCloudyIcon } from '../icons/WeatherCloudyIcon';
 import { WindIcon } from '../icons/WindIcon';
 
 import styles from './TemperatureNow.module.scss';
@@ -10,7 +10,7 @@ export function TemperatureNow() {
   return (
     <div className={styles.temperatureContainer}>
       <div className={styles.weatherIcon}>
-        <WeatherCloudIcon />
+        <WeatherCloudyIcon />
       </div>
 
       <div className={styles.temperatureHeader}>
