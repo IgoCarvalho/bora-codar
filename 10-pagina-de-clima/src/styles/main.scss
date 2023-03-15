@@ -1,9 +1,10 @@
 :root {
 
-  --violet-400: #8e87fa;
-  --violet-500: #6d67d0;
+  --violet-300: #C2BFF4;
+  --violet-600: #8e87fa;
+  --violet-700: #6d67d0;
 
-  --background: var(--violet-400);
+  --background: var(--violet-600);
   --text: #ffffff;
 }
 
@@ -48,15 +49,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-}
-
-main {
-  width: 100%;
-  max-width: 1090px;
-  min-height: 100vh;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
 }
 
 button, input {
