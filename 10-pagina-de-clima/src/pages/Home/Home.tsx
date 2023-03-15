@@ -5,7 +5,12 @@ import { TemperatureNow } from '../../components/TemperatureNow/TemperatureNow';
 import { WeekWeather } from '../../components/WeekWeather/WeekWeather';
 import { getCurrentWeatherInfo } from '../../services/api';
 import { WeatherResponse } from '../../types/weatherApi';
-import { getAirQualityData, getCurrentDayData, getSunTimeData } from '../../utils/parseWeatherData';
+import {
+  getAirQualityData,
+  getCurrentDayData,
+  getSunTimeData,
+  getWeekWeatherData,
+} from '../../utils/parseWeatherData';
 
 import styles from './Home.module.scss';
 
@@ -31,11 +36,13 @@ export function Home() {
       const currentDayData = getCurrentDayData(weatherData);
       const airQualityData = getAirQualityData(weatherData);
       const sunTimeData = getSunTimeData(weatherData);
+      const weekWeatherData = getWeekWeatherData(weatherData);
 
       return {
         currentDayData,
         airQualityData,
         sunTimeData,
+        weekWeatherData,
       };
     }
   }
@@ -61,7 +68,7 @@ export function Home() {
           sunsetTime={data?.sunTimeData.sunsetTime || ''}
         />
 
-        <WeekWeather />
+        <WeekWeather weekData={data?.weekWeatherData || []} />
       </div>
     </main>
   );

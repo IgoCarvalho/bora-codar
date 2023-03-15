@@ -66,7 +66,9 @@ function getWeekDayName(date: string) {
     weekday: 'long',
   });
 
-  const weekDayName = formatter.format(new Date(date));
+  const temporaryFixedDate = new Date(date + ' 12:00');
+
+  const weekDayName = formatter.format(temporaryFixedDate);
 
   return weekDayName;
 }
