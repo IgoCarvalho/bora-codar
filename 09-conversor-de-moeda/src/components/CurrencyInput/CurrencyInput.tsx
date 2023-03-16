@@ -49,7 +49,7 @@ export function CurrencyInput({
       <Select
         currencies={currencies}
         onChange={handleCurrencyChange}
-        defaultCurrency={currency}
+        currency={currency}
         disabled={disabled}
       />
     </div>

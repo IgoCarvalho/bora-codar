@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import CurrencyFlag from 'react-currency-flags';
 
 import { ChevronDown } from '@/assets/icons/ChevronDown';
@@ -8,23 +8,14 @@ import styles from './Select.module.scss';
 
 type SelectProps = {
   currencies: Record<string, Currency>;
-  defaultCurrency?: string;
+  currency?: string;
   onChange: (value: Currency) => void;
   disabled: boolean;
 };
 
-export function Select({
-  currencies,
-  defaultCurrency = 'USD',
-  onChange,
-  disabled = false,
-}: SelectProps) {
+export function Select({ currencies, currency = 'USD', onChange, disabled = false }: SelectProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const isOpen = useRef(false);
-
-  const [currentCurrency, setCurrentCurrency] = useState<Currency | null>(() => {
-    return currencies[defaultCurrency];
-  });
 
   function handleTriggerClick() {
     if (isOpen.current) {
@@ -41,10 +32,11 @@ export function Select({
 
   function handleItemSelect(value: string) {
     return () => {
-      setCurrentCurrency(currencies[value]);
       onChange(currencies[value]);
     };
   }
+
+  const currentCurrency = currencies[currency];
 
   return (
     <button

@@ -51,32 +51,61 @@ export default function Home({ currencies, exchanges, exchangesHistorical }: Hom
     }
   }
 
-  async function handleCurrencyChange(inputName: string, currency: string) {
-    let exchange = currencyExchanges[rightCurrency];
+  async function updateCurrencyExchanges(currency: string) {
+    const { data: exchangesData }: ExchangesResponse = await getExchanges(currency, true);
+    setCurrencyExchanges(exchangesData);
 
-    if (inputName === lefInputName) {
-      setLeftCurrency(currency);
+    return exchangesData;
+  }
+
+  async function handleCurrencyChange(inputName: string, currency: string) {
+    let exchange: number;
+
+    try {
       setIsLoading(true);
 
-      const { data: exchangesData }: ExchangesResponse = await getExchanges(currency, true);
+      if (inputName === lefInputName) {
+        const newExchangesData = await updateCurrencyExchanges(currency);
 
-      setCurrencyExchanges(exchangesData);
+        const newRightCurrency = currency === rightCurrency ? leftCurrency : rightCurrency;
 
-      exchange = exchangesData[rightCurrency];
-      const rightValueCalculated = Number(leftValue) * exchange;
+        setLeftCurrency(currency);
+        setRightCurrency(newRightCurrency);
 
-      setRightValue(rightValueCalculated.toFixed(2));
+        exchange = newExchangesData[newRightCurrency];
+        const rightValueCalculated = Number(leftValue) * exchange;
+
+        setRightValue(rightValueCalculated.toFixed(2));
+
+        handleExchangesHistoricalChange(
+          currentExchangeHistoricalPeriod,
+          currency,
+          newRightCurrency
+        );
+      } else {
+        const newLeftCurrency = currency === leftCurrency ? rightCurrency : leftCurrency;
+
+        exchange = currencyExchanges[currency];
+
+        if (currency === leftCurrency) {
+          const newExchangesData = await updateCurrencyExchanges(newLeftCurrency);
+          exchange = newExchangesData[currency];
+        }
+
+        setLeftCurrency(newLeftCurrency);
+        setRightCurrency(currency);
+
+        const rightValueCalculated = Number(leftValue) * exchange;
+        setRightValue(rightValueCalculated.toFixed(2));
+
+        handleExchangesHistoricalChange(currentExchangeHistoricalPeriod, newLeftCurrency, currency);
+      }
+    } catch (e) {
+      console.log(e);
+
+      alert('Ocorreu algum erro, tente novamente mais tarde!');
+    } finally {
       setIsLoading(false);
-
-      handleExchangesHistoricalChange(currentExchangeHistoricalPeriod, currency, rightCurrency);
-    } else {
-      setRightCurrency(currency);
-      exchange = currencyExchanges[currency];
-
-      const rightValueCalculated = Number(leftValue) * exchange;
-      setRightValue(rightValueCalculated.toFixed(2));
-
-      handleExchangesHistoricalChange(currentExchangeHistoricalPeriod, leftCurrency, currency);
     }
   }
 
@@ -88,21 +117,22 @@ export default function Home({ currencies, exchanges, exchangesHistorical }: Hom
     setCurrentExchangeHistoricalPeriod(period);
     setIsLoading(true);
 
-    try {
-      const { data: exchangesHistoricalData }: ExchangeHistoricalResponse = await getHistorical(
-        fromCurrency ?? leftCurrency,
-        toCurrency ?? rightCurrency,
-        new Date(),
-        period,
-        true
-      );
+    const { data: exchangesHistoricalData }: ExchangeHistoricalResponse = await getHistorical(
+      fromCurrency ?? leftCurrency,
+      toCurrency ?? rightCurrency,
+      new Date(),
+      period,
+      true
+    );
 
-      setCurrencyExchangesHistorical(exchangesHistoricalData);
-    } catch {
-      alert('Ocorreu algum erro, tente novamente mais tarde!');
-    } finally {
-      setIsLoading(false);
-    }
+    setCurrencyExchangesHistorical(exchangesHistoricalData);
+    setIsLoading(false);
+  }
+
+  function handleExchangesSwitch() {
+    if (isLoading) return;
+
+    handleCurrencyChange(lefInputName, rightCurrency);
   }
 
   useEffect(() => {
@@ -125,7 +155,7 @@ export default function Home({ currencies, exchanges, exchangesHistorical }: Hom
               onChangeCurrency={handleCurrencyChange}
               disabled={isLoading}
             />
-            <ArrowsExchange />
+            <ArrowsExchange onClick={handleExchangesSwitch} />
             <CurrencyInput
               name={rightInputName}
               value={rightValue}
