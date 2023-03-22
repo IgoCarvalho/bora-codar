@@ -18,10 +18,7 @@ export function Login() {
 
         <div className={styles.presentation}>
           <h1>Acesse a plataforma</h1>
-          <p>
-            Faça login ou registre-se para começar a construir <br />
-            seus projetos ainda hoje.
-          </p>
+          <p>Faça login ou registre-se para começar a construir seus projetos ainda hoje.</p>
         </div>
 
         <form>
