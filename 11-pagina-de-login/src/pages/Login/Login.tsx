@@ -1,12 +1,16 @@
 import { Button } from '../../components/Button/Button';
 import { Input } from '../../components/Input/Input';
+import { useForm } from '../../hooks/useForm';
 
-import logoImg from '../../assets/images/logo.svg';
 import backgroundImg from '../../assets/images/bg.jpg';
+import logoImg from '../../assets/images/logo.svg';
 
 import styles from './Login.module.scss';
 
 export function Login() {
+  const email = useForm('email');
+  const password = useForm();
+
   return (
     <main className={styles.container}>
       <div className={styles.content}>
@@ -22,8 +26,21 @@ export function Login() {
 
         <form>
           <div className={styles.formFields}>
-            <Input label="E-mail" name="email" type="email" placeholder="Digite seu e-mail" />
-            <Input label="Senha" name="password" type="password" placeholder="Digite sua senha" />
+            <Input
+              label="E-mail"
+              name="email"
+              type="email"
+              placeholder="Digite seu e-mail"
+              errorMessage={email.error}
+              {...email.register}
+            />
+            <Input
+              label="Senha"
+              name="password"
+              type="password"
+              placeholder="Digite sua senha"
+              {...password.register}
+            />
           </div>
           <Button>Entrar</Button>
 
