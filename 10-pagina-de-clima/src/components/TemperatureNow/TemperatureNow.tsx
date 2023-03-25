@@ -15,6 +15,7 @@ type TemperatureNowProps = {
   rain: number;
   icon: string;
   weatherText: string;
+  onLocationChange?: () => void;
 };
 
 export function TemperatureNow({
@@ -26,7 +27,12 @@ export function TemperatureNow({
   rain,
   icon,
   weatherText,
+  onLocationChange,
 }: TemperatureNowProps) {
+  function handleLocationCLick() {
+    onLocationChange && onLocationChange();
+  }
+
   return (
     <div className={styles.temperatureContainer}>
       <div className={styles.weatherIcon}>
@@ -36,7 +42,7 @@ export function TemperatureNow({
       </div>
 
       <div className={styles.temperatureHeader}>
-        <button type="button">
+        <button type="button" onClick={handleLocationCLick}>
           <PinIcon />
           Dep. Irapuan Pinheiro, CE
         </button>

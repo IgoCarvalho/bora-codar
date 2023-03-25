@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+
 import { AirQuality } from '../../components/AirQuality/AirQuality';
+import { SearchLocationModal } from '../../components/SearchLocationModal/SearchLocationModal';
 import { SunTime } from '../../components/SunTime/SunTime';
 import { TemperatureNow } from '../../components/TemperatureNow/TemperatureNow';
 import { WeekWeather } from '../../components/WeekWeather/WeekWeather';
@@ -16,6 +18,7 @@ import styles from './Home.module.scss';
 
 export function Home() {
   const [weatherData, setWeatherData] = useState<WeatherResponse>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     getWeatherData();
@@ -47,31 +50,40 @@ export function Home() {
     }
   }
 
+  function handleLocationChange() {
+    setIsModalOpen(true);
+  }
+
   const data = parseAppData();
 
   return (
-    <main className={styles.container}>
-      <TemperatureNow
-        temperature={data?.currentDayData.temperature || 0}
-        maxTemperature={data?.currentDayData.maxTemperature || 0}
-        minTemperature={data?.currentDayData.minTemperature || 0}
-        wind={data?.currentDayData.wind || 0}
-        humidity={data?.currentDayData.humidity || 0}
-        rain={data?.currentDayData.rain || 0}
-        icon={data?.currentDayData.icon || ''}
-        weatherText={data?.currentDayData.weatherText || ''}
-      />
-      <div className={styles.rightContent}>
-        <AirQuality airData={data?.airQualityData} />
-
-        <SunTime
-          currentTime={data?.sunTimeData.currentTime || ''}
-          sunriseTime={data?.sunTimeData.sunriseTime || ''}
-          sunsetTime={data?.sunTimeData.sunsetTime || ''}
+    <>
+      <main className={styles.container}>
+        <TemperatureNow
+          temperature={data?.currentDayData.temperature || 0}
+          maxTemperature={data?.currentDayData.maxTemperature || 0}
+          minTemperature={data?.currentDayData.minTemperature || 0}
+          wind={data?.currentDayData.wind || 0}
+          humidity={data?.currentDayData.humidity || 0}
+          rain={data?.currentDayData.rain || 0}
+          icon={data?.currentDayData.icon || ''}
+          weatherText={data?.currentDayData.weatherText || ''}
+          onLocationChange={handleLocationChange}
         />
+        <div className={styles.rightContent}>
+          <AirQuality airData={data?.airQualityData} />
 
-        <WeekWeather weekData={data?.weekWeatherData || []} />
-      </div>
-    </main>
+          <SunTime
+            currentTime={data?.sunTimeData.currentTime || ''}
+            sunriseTime={data?.sunTimeData.sunriseTime || ''}
+            sunsetTime={data?.sunTimeData.sunsetTime || ''}
+          />
+
+          <WeekWeather weekData={data?.weekWeatherData || []} />
+        </div>
+      </main>
+
+      <SearchLocationModal isOpen={isModalOpen} handleClose={setIsModalOpen} />
+    </>
   );
 }
