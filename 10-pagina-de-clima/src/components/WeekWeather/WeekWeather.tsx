@@ -1,3 +1,5 @@
+import { Tooltip } from '../Tooltip/Tooltip';
+
 import styles from './WeekWeather.module.scss';
 
 type WeekWeatherProps = {
@@ -16,12 +18,15 @@ export function WeekWeather({ weekData }: WeekWeatherProps) {
       {weekData.map((weekDay) => (
         <div key={weekDay.dayName} className={styles.weather}>
           <p>{weekDay.dayName}</p>
-          <img
-            width={64}
-            src={weekDay.icon}
-            alt={weekDay.weatherText}
-            title={weekDay.weatherText}
-          />
+          <Tooltip title={weekDay.weatherText}>
+            <img
+              width={64}
+              src={weekDay.icon}
+              alt={weekDay.weatherText}
+              title={weekDay.weatherText}
+            />
+          </Tooltip>
+
           <strong>
             {weekDay.maxTemperature}° <span>{weekDay.minTemperature}°</span>
           </strong>
