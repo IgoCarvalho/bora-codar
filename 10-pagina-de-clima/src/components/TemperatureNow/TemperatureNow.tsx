@@ -1,7 +1,6 @@
 import { HumidityIcon } from '../icons/HumidityIcon';
 import { PinIcon } from '../icons/PinIcon';
 import { RainIcon } from '../icons/RainIcon';
-import { WeatherCloudyIcon } from '../icons/WeatherCloudyIcon';
 import { WindIcon } from '../icons/WindIcon';
 
 import styles from './TemperatureNow.module.scss';
@@ -13,6 +12,8 @@ type TemperatureNowProps = {
   wind: number;
   humidity: number;
   rain: number;
+  icon: string;
+  weatherText: string;
 };
 
 export function TemperatureNow({
@@ -22,11 +23,13 @@ export function TemperatureNow({
   wind,
   humidity,
   rain,
+  icon,
+  weatherText,
 }: TemperatureNowProps) {
   return (
     <div className={styles.temperatureContainer}>
       <div className={styles.weatherIcon}>
-        <WeatherCloudyIcon />
+        <img width={128} src={icon} alt={weatherText} title={weatherText} />
       </div>
 
       <div className={styles.temperatureHeader}>

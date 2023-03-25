@@ -16,6 +16,10 @@ type CurrentWeather = {
   cloud: number;
   air_quality: AirQuality;
   last_updated: string;
+  condition: {
+    code: number;
+    text: string;
+  };
 };
 
 type ForecastDay = {
@@ -31,6 +35,7 @@ type ForecastDay = {
     daily_chance_of_rain: number;
     condition: {
       code: number;
+      text: string;
     };
   };
 };
@@ -46,4 +51,9 @@ export type AirQualityResponse = {
   hourly: {
     us_aqi: number[];
   };
+};
+
+export type WeatherTranslationData = {
+  icon: number;
+  text: string;
 };

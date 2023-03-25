@@ -1,0 +1,194 @@
+{
+  "1000": {
+    "icon": 113,
+    "text": "Sol"
+  },
+  "1003": {
+    "icon": 116,
+    "text": "Parcialmente nublado"
+  },
+  "1006": {
+    "icon": 119,
+    "text": "Nublado"
+  },
+  "1009": {
+    "icon": 122,
+    "text": "Encoberto"
+  },
+  "1030": {
+    "icon": 143,
+    "text": "Neblina"
+  },
+  "1063": {
+    "icon": 176,
+    "text": "Possibilidade de chuva irregular"
+  },
+  "1066": {
+    "icon": 179,
+    "text": "Possibilidade de neve irregular"
+  },
+  "1069": {
+    "icon": 182,
+    "text": "Possibilidade de neve molhada irregular"
+  },
+  "1072": {
+    "icon": 185,
+    "text": "Possibilidade de chuvisco gelado irregular"
+  },
+  "1087": {
+    "icon": 200,
+    "text": "Possibilidade de trovoada"
+  },
+  "1114": {
+    "icon": 227,
+    "text": "Rajadas de vento com neve"
+  },
+  "1117": {
+    "icon": 230,
+    "text": "Nevasca"
+  },
+  "1135": {
+    "icon": 248,
+    "text": "Nevoeiro"
+  },
+  "1147": {
+    "icon": 260,
+    "text": "Nevoeiro gelado"
+  },
+  "1150": {
+    "icon": 263,
+    "text": "Chuvisco irregular"
+  },
+  "1153": {
+    "icon": 266,
+    "text": "Chuvisco"
+  },
+  "1168": {
+    "icon": 281,
+    "text": "Chuvisco gelado"
+  },
+  "1171": {
+    "icon": 284,
+    "text": "Chuvisco forte gelado"
+  },
+  "1180": {
+    "icon": 293,
+    "text": "Chuva fraca irregular"
+  },
+  "1183": {
+    "icon": 296,
+    "text": "Chuva fraca"
+  },
+  "1186": {
+    "icon": 299,
+    "text": "Períodos de chuva moderada"
+  },
+  "1189": {
+    "icon": 302,
+    "text": "Chuva moderada"
+  },
+  "1192": {
+    "icon": 305,
+    "text": "Períodos de chuva forte"
+  },
+  "1195": {
+    "icon": 308,
+    "text": "Chuva forte"
+  },
+  "1198": {
+    "icon": 311,
+    "text": "Chuva fraca e gelada"
+  },
+  "1201": {
+    "icon": 314,
+    "text": "Chuva gelada moderada ou forte"
+  },
+  "1204": {
+    "icon": 317,
+    "text": "Chuva fraca com neve"
+  },
+  "1207": {
+    "icon": 320,
+    "text": "Chuva forte ou moderada com neve"
+  },
+  "1210": {
+    "icon": 323,
+    "text": "Queda de neve irregular e fraca"
+  },
+  "1213": {
+    "icon": 326,
+    "text": "Queda de neve fraca"
+  },
+  "1216": {
+    "icon": 329,
+    "text": "Queda de neve moderada e irregular"
+  },
+  "1219": {
+    "icon": 332,
+    "text": "Queda de neve moderada"
+  },
+  "1222": {
+    "icon": 335,
+    "text": "Queda de neve forte e irregular"
+  },
+  "1225": {
+    "icon": 338,
+    "text": "Neve intensa"
+  },
+  "1237": {
+    "icon": 350,
+    "text": "Granizo"
+  },
+  "1240": {
+    "icon": 353,
+    "text": "Aguaceiros fracos"
+  },
+  "1243": {
+    "icon": 356,
+    "text": "Aguaceiros moderados ou fortes"
+  },
+  "1246": {
+    "icon": 359,
+    "text": "Chuva torrencial"
+  },
+  "1249": {
+    "icon": 362,
+    "text": "Aguaceiros fracos com neve"
+  },
+  "1252": {
+    "icon": 365,
+    "text": "Aguaceiros moderados ou fortes com neve"
+  },
+  "1255": {
+    "icon": 368,
+    "text": "Chuva fraca com neve"
+  },
+  "1258": {
+    "icon": 371,
+    "text": "Chuva moderada ou forte com neve"
+  },
+  "1261": {
+    "icon": 374,
+    "text": "Aguaceiros fracos com granizo"
+  },
+  "1264": {
+    "icon": 377,
+    "text": "Aguaceiros moderados ou fortes com granizo"
+  },
+  "1273": {
+    "icon": 386,
+    "text": "Chuva fraca irregular com trovoada"
+  },
+  "1276": {
+    "icon": 389,
+    "text": "Chuva moderada ou forte com trovoada"
+  },
+  "1279": {
+    "icon": 392,
+    "text": "Neve fraca irregular com trovoada"
+  },
+  "1282": {
+    "icon": 395,
+    "text": "Neve moderada ou forte com trovoada"
+  }
+}

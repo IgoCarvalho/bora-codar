@@ -58,6 +58,8 @@ export function Home() {
         wind={data?.currentDayData.wind || 0}
         humidity={data?.currentDayData.humidity || 0}
         rain={data?.currentDayData.rain || 0}
+        icon={data?.currentDayData.icon || ''}
+        weatherText={data?.currentDayData.weatherText || ''}
       />
       <div className={styles.rightContent}>
         <AirQuality airData={data?.airQualityData} />

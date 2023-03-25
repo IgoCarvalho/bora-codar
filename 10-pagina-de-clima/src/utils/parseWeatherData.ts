@@ -1,4 +1,7 @@
-import { WeatherResponse } from '../types/weatherApi';
+import { WeatherResponse, WeatherTranslationData } from '../types/weatherApi';
+import weatherTranslation from '../weatherTranslation.json';
+
+const weatherToPt: Record<number, WeatherTranslationData> = weatherTranslation;
 
 function getCurrentDayFromForecast(data: WeatherResponse) {
   const currentDate = data.current.last_updated.split(' ')[0];
@@ -18,6 +21,8 @@ export function getCurrentDayData(data: WeatherResponse) {
     wind: data.current.wind_mph,
     humidity: data.current.humidity,
     rain: dayFromForecast?.day.daily_chance_of_rain,
+    icon: `/images/icons/${weatherToPt[data.current.condition.code].icon}.svg`,
+    weatherText: weatherToPt[data.current.condition.code].text,
   };
 
   return currentDayData;
@@ -82,6 +87,8 @@ export function getWeekWeatherData(data: WeatherResponse) {
     maxTemperature: day.day.maxtemp_c,
     minTemperature: day.day.mintemp_c,
     dayName: getWeekDayName(day.date),
+    icon: `/images/icons/${weatherToPt[day.day.condition.code].icon}.svg`,
+    weatherText: weatherToPt[day.day.condition.code].text,
   }));
 
   return weekWeatherData;
