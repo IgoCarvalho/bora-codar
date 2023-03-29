@@ -6,7 +6,7 @@ import logoImg from '../assets/images/logo.svg';
 
 export function SideNav() {
   return (
-    <aside className="space-y-[60px] pl-9 pt-8">
+    <aside className="space-y-[60px] pl-9 pt-8 pr-7">
       <img src={logoImg} width={50} alt="Kanban app logo" />
 
       <nav>
