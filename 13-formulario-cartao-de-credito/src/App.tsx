@@ -1,4 +1,5 @@
 import { Button } from './components/Button/Button';
+import { Card } from './components/Card/Card';
 import { TextField } from './components/TextField/TextField';
 
 export function App() {
@@ -15,6 +16,8 @@ export function App() {
       />
 
       <Button>Adicionar cartão</Button>
+
+      <Card />
     </div>
   );
 }
