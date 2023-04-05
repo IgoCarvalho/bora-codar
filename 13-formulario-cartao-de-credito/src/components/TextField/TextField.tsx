@@ -18,10 +18,12 @@ export function TextField({ label, name, infoText, error, ...props }: TextFieldP
       <div className={styles.labelContainer}>
         <label htmlFor={name}>{label}</label>
 
-        <div className={styles.questionContainer}>
-          <QuestionIcon />
-          {infoText && <span>{infoText}</span>}
-        </div>
+        {!!infoText && (
+          <div className={styles.questionContainer}>
+            <QuestionIcon />
+            <span>{infoText}</span>
+          </div>
+        )}
       </div>
 
       <input className={styles.input} id={name} name={name} {...props} />

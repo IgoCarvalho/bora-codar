@@ -1,0 +1,55 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .content {
+    width: 100%;
+    max-width: 736px;
+    margin: 0 auto;
+    padding: 32px;
+    background-color: var(--gray-800);
+    border-radius: 8px;
+    border: 1px solid var(--gray-700);
+  }
+
+  .form {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 48px;
+
+    .formGroup {
+      display: flex;
+      gap: 16px;
+    }
+
+    .formFieldsContainer {
+      width: 100%;
+      max-width: 328px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .cardContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 34px;
+
+      .cardCertification {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+    }
+
+    .formActionsContainer {
+      width: 100%;
+    }
+  }
+}
