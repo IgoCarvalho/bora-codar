@@ -5,11 +5,49 @@ import { VisaFlagIcon } from '../icons/VisaFlagIcon';
 
 import styles from './Card.module.scss';
 
-export function Card() {
+type CardProps = {
+  number: string;
+  cvc: string;
+  cardholder: string;
+  expiryDate: string;
+  flip?: boolean;
+};
+
+export function Card({ number, cardholder, cvc, expiryDate, flip = false }: CardProps) {
+  function formatCardNumber() {
+    const filledNumber = number.replace(/\s/g, '').padEnd(16, '•');
+
+    const numberFormatted = filledNumber
+      .slice(0, 16)
+      .split(/(.{0,4})/)
+      .filter((item) => !!item)
+      .map((item, i) => <span key={item + i}>{item}</span>);
+
+    return numberFormatted;
+  }
+
+  function formatExpiryDate() {
+    const filledDate = expiryDate.replace(/\D/g, '').padEnd(4, '•').slice(0, 4);
+
+    const dateFormatted = filledDate.replace(/(.{2})/, (date) => date.concat('/')).trim();
+
+    return dateFormatted;
+  }
+
+  function formatCvc() {
+    const filledCode = cvc.padEnd(3, '•').slice(0, 3);
+
+    return filledCode;
+  }
+
+  const cardNumber = formatCardNumber();
+  const formattedExpiryDate = formatExpiryDate();
+  const cardCvc = formatCvc();
+
   return (
     <div className={styles.container}>
       <div className={styles.cardContainer}>
-        <div className={styles.card}>
+        <div className={`${styles.card} ${flip && styles.flip}`}>
           <div className={styles.cardFront}>
             <div className={styles.cardFrontContent}>
               <div className={styles.cardFrontHeader}>
@@ -18,16 +56,11 @@ export function Card() {
               </div>
 
               <div className={styles.cardFrontInfo}>
-                <p className={styles.cardNumber}>
-                  <span>4716</span>
-                  <span>8039</span>
-                  <span>02••</span>
-                  <span>••••</span>
-                </p>
+                <p className={styles.cardNumber}>{cardNumber}</p>
 
-                <p className={styles.cardUserName}>Seu nome aqui</p>
+                <p className={styles.cardUserName}> {cardholder ? cardholder : 'Seu nome aqui'}</p>
 
-                <span className={styles.cardExpireDate}>••/••</span>
+                <span className={styles.cardExpireDate}>{formattedExpiryDate}</span>
               </div>
             </div>
             <img width={280} height={168} src={cardBgImg} alt="Credit card" />
@@ -35,7 +68,7 @@ export function Card() {
           <div className={styles.cardBack}>
             <div className={styles.cardBackContent}>
               <div className={styles.cardCvc}>
-                <p>123</p>
+                <p>{cardCvc}</p>
                 <span>CVV</span>
               </div>
             </div>

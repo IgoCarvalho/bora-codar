@@ -12,6 +12,10 @@
     transition: transform 0.8s;
     transform-style: preserve-3d;
 
+    &.flip {
+      transform: rotateY(180deg);
+    }
+
     .cardFront,
     .cardBack {
       position: absolute;
@@ -126,9 +130,5 @@
         }
       }
     }
-  }
-
-  &:hover .card {
-    transform: rotateY(180deg);
   }
 }

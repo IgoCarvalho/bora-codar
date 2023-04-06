@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import { ForwardedRef, InputHTMLAttributes, forwardRef } from 'react';
 
 import { QuestionIcon } from '../icons/QuestionIcon';
 import { WarningIcon } from '../icons/WarningIcon';
@@ -12,7 +12,10 @@ type TextFieldProps = {
   error?: string;
 } & InputHTMLAttributes<HTMLInputElement>;
 
-export function TextField({ label, name, infoText, error, ...props }: TextFieldProps) {
+export function TextFieldBase(
+  { label, name, infoText, error, ...props }: TextFieldProps,
+  ref: ForwardedRef<HTMLInputElement>
+) {
   return (
     <div className={styles.container}>
       <div className={styles.labelContainer}>
@@ -26,7 +29,7 @@ export function TextField({ label, name, infoText, error, ...props }: TextFieldP
         )}
       </div>
 
-      <input className={styles.input} id={name} name={name} {...props} />
+      <input className={styles.input} id={name} name={name} {...props} ref={ref} />
 
       {error && (
         <div className={styles.errorContainer}>
@@ -37,3 +40,5 @@ export function TextField({ label, name, infoText, error, ...props }: TextFieldP
     </div>
   );
 }
+
+export const TextField = forwardRef(TextFieldBase);
