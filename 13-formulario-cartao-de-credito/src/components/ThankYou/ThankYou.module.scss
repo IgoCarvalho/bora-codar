@@ -1,0 +1,40 @@
+.container {
+  width: 100%;
+  max-width: 381px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 24px 0;
+  text-align: center;
+
+  animation: fadeInBottom 400ms forwards;
+
+  .title {
+    margin-top: 35px;
+    font-size: 28px;
+    letter-spacing: 0.12em;
+  }
+
+  .description {
+    margin-top: 16px;
+    font-size: 18px;
+  }
+
+  .actionsContainer {
+    margin-top: 48px;
+    width: 100%;
+  }
+}
+
+@keyframes fadeInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
