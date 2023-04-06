@@ -1,9 +1,9 @@
 import cardBgBackImg from '../../assets/images/card-bg-back.jpg';
 import cardBgImg from '../../assets/images/card-bg.jpg';
 import { ContactlessIcon } from '../icons/ContactlessIcon';
-import { VisaFlagIcon } from '../icons/VisaFlagIcon';
 
 import styles from './Card.module.scss';
+import { getCardFlag } from './getCardFlag';
 
 type CardProps = {
   number: string;
@@ -43,6 +43,7 @@ export function Card({ number, cardholder, cvc, expiryDate, flip = false }: Card
   const cardNumber = formatCardNumber();
   const formattedExpiryDate = formatExpiryDate();
   const cardCvc = formatCvc();
+  const CardFlag = getCardFlag(number);
 
   return (
     <div className={styles.container}>
@@ -51,7 +52,7 @@ export function Card({ number, cardholder, cvc, expiryDate, flip = false }: Card
           <div className={styles.cardFront}>
             <div className={styles.cardFrontContent}>
               <div className={styles.cardFrontHeader}>
-                <VisaFlagIcon />
+                {CardFlag ? <CardFlag /> : <div></div>}
                 <ContactlessIcon />
               </div>
 
