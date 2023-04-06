@@ -119,6 +119,11 @@ export function Form() {
             </p>
           </div>
 
+          <p className={styles.cardCertification}>
+            <ShieldCheckIcon />
+            Seus dados estão seguros
+          </p>
+
           <div className={styles.formActionsContainer}>
             <Button type="submit">Adicionar cartão</Button>
           </div>

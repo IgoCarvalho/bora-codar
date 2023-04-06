@@ -43,13 +43,58 @@
 
       .cardCertification {
         display: flex;
-        align-items: center;
-        gap: 8px;
       }
+    }
+
+    .cardCertification {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .formActionsContainer {
       width: 100%;
+    }
+  }
+
+  @media screen and (max-width: 425px) {
+    .content {
+      min-height: 100vh;
+      border-radius: 0;
+      border: none;
+      padding: 32px 24px;
+      display: flex;
+      align-items: center;
+    }
+
+    .form {
+      flex-direction: column;
+      padding-bottom: 100px;
+
+      .formFieldsContainer {
+        max-width: initial;
+      }
+
+      .cardContainer {
+        order: -1;
+
+        .cardCertification {
+          display: none;
+        }
+      }
+
+      .cardCertification {
+        display: flex;
+      }
+
+      .formActionsContainer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        padding: 24px;
+        background-color: var(--gray-800);
+      }
     }
   }
 }
