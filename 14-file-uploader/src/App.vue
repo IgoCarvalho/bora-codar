@@ -1,5 +1,8 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import HomePage from './pages/HomePage.vue';
+
+</script>
 
 <template>
-  <h1>Hello World!</h1>
+  <HomePage />
 </template>
