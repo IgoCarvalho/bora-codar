@@ -1,0 +1,132 @@
+.container {
+  width: 100%;
+  border: 1px solid var(--gray-800);
+  border-radius: 10px;
+  padding: 48px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  position: relative;
+
+  &:hover {
+    border-color: var(--purple-100);
+  }
+
+  hr {
+    background-color: var(--gray-200);
+    border: none;
+    height: 1px;
+  }
+
+  .cardRecommendedBadge {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 8px 16px;
+    border-radius: 6px;
+    background-color: var(--orange);
+    color: var(--gray-900);
+    font-size: 12px;
+    font-weight: var(--bold);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+
+  .cardHeader {
+    .cardInfoText {
+      color: var(--purple-200);
+      text-transform: uppercase;
+      font-size: 14px;
+      font-weight: var(--bold);
+      letter-spacing: 0.06em;
+    }
+
+    .cardHeaderDetails {
+      margin-top: 8px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cardTitle {
+      font-size: 24px;
+      font-weight: var(--bold);
+    }
+
+    .cardPrice {
+      font-size: 18px;
+      font-weight: var(--bold);
+
+      .currencySymbol {
+        font-weight: var(--regular);
+      }
+
+      .priceValue {
+        font-size: 20px;
+      }
+    }
+  }
+
+  .cardItemsList {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .cardItem {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .checkIcon {
+        display: flex;
+        color: var(--green-200);
+      }
+      .infoIcon {
+        display: flex;
+        color: var(--gray-900);
+      }
+
+      .cardItemText {
+        flex: 1;
+        font-size: 16px;
+        letter-spacing: 0.06em;
+        color: var(--gray-600);
+      }
+    }
+  }
+
+  &.recommended {
+    background-color: var(--gray-900);
+
+    hr {
+      background-color: var(--gray-700);
+    }
+
+    .cardHeader {
+      color: var(--gray-50);
+
+      .cardInfoText {
+        color: var(--purple-100);
+      }
+    }
+
+    .cardItemsList {
+      .cardItem {
+        .checkIcon {
+          color: var(--green-100);
+        }
+        .infoIcon {
+          color: var(--gray-500);
+        }
+
+        .cardItemText {
+          color: var(--gray-300);
+        }
+      }
+    }
+  }
+}
