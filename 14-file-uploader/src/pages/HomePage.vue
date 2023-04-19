@@ -1,9 +1,15 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+
 import FileBox from '@/components/FileBox.vue'
 import FileUpload from '@/components/FileUpload.vue'
 
+const uploadedFiles = ref<File[]>([])
+
 function handleFiles(files: FileList) {
   console.log(files)
+
+  uploadedFiles.value.push(...Array.from(files))
 }
 </script>
 
@@ -13,7 +19,14 @@ function handleFiles(files: FileList) {
       <FileBox @files="handleFiles" />
 
       <div class="uploader__files">
-        <FileUpload title="Scann_158.pdf" :totalSize="74" :uploadedSize="30" />
+        <FileUpload
+          v-for="file in uploadedFiles"
+          :key="file.name"
+          :title="file.name"
+          :totalSize="file.size"
+          :uploadedSize="30"
+          completed
+        />
       </div>
     </div>
   </main>
@@ -21,7 +34,7 @@ function handleFiles(files: FileList) {
 
 <style scoped lang="scss">
 .container {
-  width: 100%;
+  width: calc(100% - 32px);
   min-height: 100vh;
   max-width: 440px;
   margin: auto;

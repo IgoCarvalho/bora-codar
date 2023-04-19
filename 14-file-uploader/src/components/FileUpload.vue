@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { filesize } from 'filesize'
 
 import FileIcon from './icons/FileIcon.vue'
 import XIcon from './icons/XIcon.vue'
+import RetryIcon from './icons/RetryIcon.vue'
 
 type FileUploadProps = {
   title: string
   totalSize: number
   uploadedSize: number
+  completed?: boolean
+  error?: boolean
 }
 
 const props = defineProps<FileUploadProps>()
@@ -16,31 +20,70 @@ function handleCancel() {
   console.log('Cancelling upload')
 }
 
+function formatFileSize(size: number) {
+  const sizeFormatted = filesize(size)
+
+  return sizeFormatted
+}
+
 const uploadProgress = computed(() => {
+  if (props.error) {
+    return 0
+  }
+
+  if (props.completed) {
+    return 100
+  }
+
   const progress = (100 * props.uploadedSize) / props.totalSize
   return Math.round(progress)
+})
+
+const isUploading = computed(() => {
+  return !props.completed && !props.error
 })
 </script>
 
 <template>
-  <div class="file">
-    <button type="button" class="cancel__button" title="Cancelar" @click="handleCancel">
+  <div :class="['file', { 'file--completed': completed }, { 'file--error': error }]">
+    <button
+      v-if="isUploading"
+      type="button"
+      class="file__action__button"
+      title="Cancelar"
+      @click="handleCancel"
+    >
       <XIcon />
     </button>
-    
+
+    <button
+      v-if="error"
+      type="button"
+      class="file__action__button"
+      title="Tentar novamente"
+      @click="handleCancel"
+    >
+      <RetryIcon />
+    </button>
+
     <div class="file__icon">
       <FileIcon />
     </div>
     <div class="file__content">
       <div class="file__info">
         <strong class="file__title">{{ title }}</strong>
-        <span class="file__size">{{ uploadedSize }} MB / {{ totalSize }} MB</span>
+        <div class="file__size">
+          <span v-if="isUploading">{{ uploadedSize }} / </span>
+          <span>{{ formatFileSize(totalSize) }}</span>
+        </div>
       </div>
       <div class="file__progress">
         <div class="progress">
           <div class="progress__bar" :style="{ width: `${uploadProgress}%` }"></div>
         </div>
-        <span class="progress__value">100 %</span>
+
+        <span v-if="error" class="progress__value">Erro</span>
+        <span v-else class="progress__value">{{ uploadProgress }} %</span>
       </div>
     </div>
   </div>
@@ -57,7 +100,7 @@ const uploadProgress = computed(() => {
   position: relative;
   font-style: italic;
 
-  .cancel__button {
+  .file__action__button {
     display: flex;
     background-color: #fff;
     position: absolute;
@@ -74,6 +117,7 @@ const uploadProgress = computed(() => {
 
   .file__icon {
     background-color: #e9e3f8;
+    color: #ac96e4;
     border-radius: 4px;
     display: flex;
     align-items: center;
@@ -125,10 +169,49 @@ const uploadProgress = computed(() => {
     }
 
     .progress__value {
+      color: #9892a6;
       font-size: 12px;
       font-weight: 500;
       min-width: 32px;
       text-align: center;
+    }
+  }
+
+  &--completed {
+    .file__icon {
+      background-color: #daf2d9;
+      color: #73b172;
+    }
+
+    .file__progress {
+      .progress {
+        .progress__bar {
+          background: #73b172;
+        }
+      }
+
+      .progress__value {
+        color: #4e884d;
+      }
+    }
+  }
+
+  &--error {
+    .file__icon {
+      background-color: #f2d9d9;
+      color: #e36363;
+    }
+
+    .file__progress {
+      .progress {
+        .progress__bar {
+          background: #e36363;
+        }
+      }
+
+      .progress__value {
+        color: #e36363;
+      }
     }
   }
 }
