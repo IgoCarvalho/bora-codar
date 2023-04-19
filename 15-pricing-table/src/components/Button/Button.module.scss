@@ -1,0 +1,31 @@
+.container {
+  width: 100%;
+  padding: 16px 24px;
+  background-color: transparent;
+  font-weight: var(--bold);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 300ms background-color;
+
+  &.primary {
+    border: 1px solid var(--gray-800);
+    color: var(--gray-800);
+
+    &:hover,
+    &:focus {
+      background-color: var(--gray-800);
+      color: var(--white);
+    }
+  }
+
+  &.secondary {
+    background-color: var(--purple-100);
+    color: var(--white);
+
+    &:hover,
+    &:focus {
+      background-color: var(--purple-200);
+    }
+  }
+}
