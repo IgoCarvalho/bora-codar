@@ -20,6 +20,26 @@ function handleFiles(files: FileList) {
 
       <div class="uploader__files">
         <FileUpload
+          title="Scann_158.pdf"
+          :totalSize="7.4e+7"
+          :uploadedSize="3e+7"
+        />
+
+        <FileUpload
+          title="README.rm"
+          :totalSize="12000"
+          :uploadedSize="30"
+          completed
+        />
+
+        <FileUpload
+          title="picture1.jpeg"
+          :totalSize="6.3e+6"
+          :uploadedSize="30"
+          error
+        />
+        
+        <FileUpload
           v-for="file in uploadedFiles"
           :key="file.name"
           :title="file.name"

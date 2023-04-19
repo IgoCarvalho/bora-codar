@@ -73,7 +73,7 @@ const isUploading = computed(() => {
       <div class="file__info">
         <strong class="file__title">{{ title }}</strong>
         <div class="file__size">
-          <span v-if="isUploading">{{ uploadedSize }} / </span>
+          <span v-if="isUploading">{{ formatFileSize(uploadedSize) }} / </span>
           <span>{{ formatFileSize(totalSize) }}</span>
         </div>
       </div>
