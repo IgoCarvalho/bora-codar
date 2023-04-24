@@ -1,14 +1,14 @@
 import { useState } from 'react';
 
+import { Contact as ContactType } from '../../types/contact';
+
 import { ContactInfo, Container, ImageContainer } from './Contact.styles';
 
 type ContactProps = {
-  imgUrl: string;
-  name: string;
-  phone: string;
+  data: ContactType;
 };
 
-export function Contact({ imgUrl, name, phone }: ContactProps) {
+export function Contact({ data: { imgUrl, name, phone } }: ContactProps) {
   const [imgError, setImgError] = useState(false);
 
   function handleImageError() {
