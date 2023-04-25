@@ -4,7 +4,7 @@ import { SearchIcon } from '../icons/SearchIcon';
 
 import { Container } from './Input.styles';
 
-type InputProps = {
+export type InputProps = {
   icon?: boolean;
 } & InputHTMLAttributes<HTMLInputElement>;
 

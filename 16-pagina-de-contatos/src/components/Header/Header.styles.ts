@@ -43,3 +43,15 @@ export const ActionButton = styled.button`
     background-color: var(--violet-800);
   }
 `;
+
+export const NewContactForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+export const NewContactFormFields = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;

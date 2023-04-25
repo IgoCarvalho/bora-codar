@@ -16,6 +16,7 @@ type ModalProps = {
   title: string;
   isOpen?: boolean;
   successButtonText?: string;
+  disableSuccessButton?: boolean;
   onSuccess?: () => void;
   onClose?: () => void;
 };
@@ -25,6 +26,7 @@ export function Modal({
   title,
   onSuccess,
   onClose,
+  disableSuccessButton = false,
   isOpen = false,
   successButtonText = 'Ok',
 }: ModalProps) {
@@ -45,9 +47,11 @@ export function Modal({
 
         <DialogContent>{children}</DialogContent>
 
-        <DialogActionsContainer>
-          <Button onClick={handleSuccessButton}>{successButtonText}</Button>
-        </DialogActionsContainer>
+        {disableSuccessButton || (
+          <DialogActionsContainer>
+            <Button onClick={handleSuccessButton}>{successButtonText}</Button>
+          </DialogActionsContainer>
+        )}
       </DialogPanel>
     </DialogContainer>
   );

@@ -16,6 +16,7 @@ export const TriggerContainer = styled.div``;
 
 export const DialogContainer = styled(Dialog)`
   position: fixed;
+  z-index: 20;
   inset: 0;
   display: flex;
   justify-content: center;
@@ -43,7 +44,7 @@ export const DialogPanel = styled(Dialog.Panel)`
 `;
 
 export const DialogContent = styled.div`
-  padding: 16px 0;
+  padding-top: 16px;
 `;
 
 export const DialogTitle = styled(Dialog.Title)`
@@ -55,4 +56,5 @@ export const DialogActionsContainer = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 8px;
+  padding-top: 16px;
 `;

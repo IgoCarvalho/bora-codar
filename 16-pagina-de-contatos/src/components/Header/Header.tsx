@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { FormEvent, useState } from 'react';
 
+import { Button } from '../Button/Button';
 import { Input } from '../Input/Input';
 import { Modal } from '../Modal/Modal';
+import { TextField } from '../TextField/TextField';
 import { AddIcon } from '../icons/AddIcon';
 import { PencilIcon } from '../icons/PencilIcon';
 import { TrashIcon } from '../icons/TrashIcon';
@@ -11,6 +13,8 @@ import {
   ActionsContainer,
   Container,
   Content,
+  NewContactForm,
+  NewContactFormFields,
   TopContent,
 } from './Header.styles';
 
@@ -20,8 +24,13 @@ export function Header() {
   function handleOpenNewContactModal() {
     setIsNewContactModalOpen(true);
   }
+
   function handleCloseNewContactModal() {
     setIsNewContactModalOpen(false);
+  }
+
+  function handleNewContactForm(event: FormEvent) {
+    event.preventDefault();
   }
 
   return (
@@ -57,11 +66,17 @@ export function Header() {
         title="Criar novo contato"
         isOpen={isNewContactModalOpen}
         onClose={handleCloseNewContactModal}
+        disableSuccessButton
       >
-        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident in
-        explicabo accusamus iste, ipsa eum aut? Similique, iste cum. Aspernatur
-        perferendis vero corrupti beatae sunt rerum voluptatem corporis illo
-        tempore!
+        <NewContactForm onSubmit={handleNewContactForm}>
+          <NewContactFormFields>
+            <TextField label="Nome" name="name" autoFocus />
+            <TextField label="Telefone" name="phone" />
+            <TextField label="Foto (url)" name="imageUrl" />
+          </NewContactFormFields>
+
+          <Button>Criar</Button>
+        </NewContactForm>
       </Modal>
     </>
   );
