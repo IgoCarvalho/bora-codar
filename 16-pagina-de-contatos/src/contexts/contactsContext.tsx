@@ -5,7 +5,7 @@ import { storageService } from '../services/storageService';
 
 type ContactsContextData = {
   contacts: Contact[];
-  addContact: (contact: Omit<Contact, 'id'>) => void;
+  createContact: (contact: Omit<Contact, 'id'>) => void;
 };
 
 type ContactsProviderProps = {
@@ -19,7 +19,7 @@ export const ContactsContext = createContext({} as ContactsContextData);
 export function ContactsProvider({ children }: ContactsProviderProps) {
   const [contacts, setContacts] = useState<Contact[]>(INITIAL_DATA.contacts);
 
-  function addContact(contact: Omit<Contact, 'id'>) {
+  function createContact(contact: Omit<Contact, 'id'>) {
     const newContact = {
       ...contact,
       id: Date.now().toString(),
@@ -35,7 +35,7 @@ export function ContactsProvider({ children }: ContactsProviderProps) {
     <ContactsContext.Provider
       value={{
         contacts,
-        addContact,
+        createContact,
       }}
     >
       {children}

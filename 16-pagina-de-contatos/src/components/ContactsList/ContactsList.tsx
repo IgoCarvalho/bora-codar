@@ -18,7 +18,7 @@ type ContactsListProps = {
 export function ContactsList({ contacts }: ContactsListProps) {
   function groupContacts() {
     const sortedContacts = contacts.sort((a, b) =>
-      b.name.localeCompare(a.name, 'pt-BR')
+      a.name.localeCompare(b.name)
     );
 
     const groups = sortedContacts.reduce<ContactGroup>((acc, contact) => {
