@@ -1,4 +1,4 @@
-export const items = [
+export const contactsData = [
   {
     id: 'd109e379-b9b5-4665-b474-1265cd268e36',
     name: 'Isabel Santos',

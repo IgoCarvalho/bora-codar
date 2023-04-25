@@ -1,10 +1,12 @@
 import { ContactsList } from '../../components/ContactsList/ContactsList';
 import { Header } from '../../components/Header/Header';
+import { useContacts } from '../../hooks/useContacts';
 
-import { items } from './data';
 import { Container, Content, ListContainer, Shadow } from './Home.styles';
 
 export function Home() {
+  const { contacts } = useContacts();
+
   return (
     <Container>
       <Shadow>
@@ -13,7 +15,7 @@ export function Home() {
 
       <Content>
         <ListContainer>
-          <ContactsList contacts={items} />
+          <ContactsList contacts={contacts} />
         </ListContainer>
       </Content>
     </Container>
