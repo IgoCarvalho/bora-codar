@@ -8,12 +8,13 @@ import { ContactInfo, Container, ImageContainer } from './Contact.styles';
 type ContactProps = {
   data: ContactType;
   onClick?: (contact: ContactType) => void;
+  disabled?: boolean;
 };
 
-export function Contact({ data, onClick }: ContactProps) {
+export function Contact({ data, onClick, disabled }: ContactProps) {
   const [imgError, setImgError] = useState(false);
 
-  const { isEditMode } = useContacts();
+  const { isEditMode, isDeleteMode } = useContacts();
 
   function handleImageError() {
     setImgError(true);
@@ -35,7 +36,11 @@ export function Contact({ data, onClick }: ContactProps) {
   }
 
   return (
-    <Container onClick={handleContactClick} isEditing={isEditMode}>
+    <Container
+      onClick={handleContactClick}
+      isEditing={isEditMode && !disabled}
+      isDeleting={isDeleteMode && !disabled}
+    >
       <ImageContainer>
         {imgError ? (
           <p>{getNameInitials()}</p>

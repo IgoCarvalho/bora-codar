@@ -62,7 +62,7 @@ export const ActionButton = styled.button<ActionButtonProps>`
 `;
 
 export const DeleteActionButton = styled(ActionButton)`
-  --highlight-color: #be123c;
+  --highlight-color: var(--red-600);
 `;
 
 export const NewContactForm = styled.form`

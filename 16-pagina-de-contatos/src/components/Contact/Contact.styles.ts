@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 
 type ContainerProps = {
   isEditing?: boolean;
+  isDeleting?: boolean;
 };
 
 export const Container = styled.div<ContainerProps>`
@@ -38,6 +39,15 @@ export const Container = styled.div<ContainerProps>`
     css`
       --highlight-bg: var(--violet-700);
       --highlight-border: var(--violet-500);
+
+      cursor: pointer;
+    `}
+
+  ${({ isDeleting }) =>
+    isDeleting &&
+    css`
+      --highlight-bg: var(--violet-700);
+      --highlight-border: var(--red-600);
 
       cursor: pointer;
     `}

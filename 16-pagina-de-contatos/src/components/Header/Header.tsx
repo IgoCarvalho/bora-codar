@@ -29,7 +29,13 @@ export function Header() {
     imgUrl: '',
   });
 
-  const { createContact, switchEditMode, isEditMode } = useContacts();
+  const {
+    createContact,
+    switchEditMode,
+    isEditMode,
+    switchDeleteMode,
+    isDeleteMode,
+  } = useContacts();
 
   function handleOpenNewContactModal() {
     setIsNewContactModalOpen(true);
@@ -82,6 +88,10 @@ export function Header() {
     switchEditMode();
   }
 
+  function handleDeleteButton() {
+    switchDeleteMode();
+  }
+
   return (
     <>
       <Container>
@@ -98,7 +108,10 @@ export function Header() {
                 <PencilIcon />
               </ActionButton>
 
-              <DeleteActionButton>
+              <DeleteActionButton
+                highlighted={isDeleteMode}
+                onClick={handleDeleteButton}
+              >
                 <TrashIcon />
               </DeleteActionButton>
             </ActionsContainer>

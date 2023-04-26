@@ -13,6 +13,7 @@ import {
   ContactsGroupList,
   ContactsGroupTitle,
   Container,
+  DeleteContactContainer,
   EditContactForm,
   EditContactFormFields,
 } from './ContactsList.styles';
@@ -35,7 +36,8 @@ export function ContactsList({ contacts }: ContactsListProps) {
   const [editingContact, setEditingContact] =
     useState<ContactType>(defaultContact);
 
-  const { isEditMode, editContact } = useContacts();
+  const { isEditMode, isDeleteMode, editContact, deleteContact } =
+    useContacts();
 
   function groupContacts() {
     const sortedContacts = contacts.sort((a, b) =>
@@ -61,11 +63,9 @@ export function ContactsList({ contacts }: ContactsListProps) {
   }
 
   function handleContactClick(contact: ContactType) {
-    if (isEditMode) {
+    if (isEditMode || isDeleteMode) {
       setEditingContact(contact);
-      openEditContactModal();
-
-      return;
+      openContactModal();
     }
   }
 
@@ -80,22 +80,29 @@ export function ContactsList({ contacts }: ContactsListProps) {
 
     editContact(editingContact);
     clearEditContactForm();
-    closeEditContactModal();
+    closeContactModal();
   }
 
   function clearEditContactForm() {
     setEditingContact(defaultContact);
   }
 
-  function openEditContactModal() {
+  function handleDeleteContact() {
+    deleteContact(editingContact.id);
+    closeContactModal();
+  }
+
+  function openContactModal() {
     setIsEditContactModalOpen(true);
   }
 
-  function closeEditContactModal() {
+  function closeContactModal() {
     setIsEditContactModalOpen(false);
   }
 
   const contactsGroupedByName = groupContacts();
+
+  const contactModalTitle = isEditMode ? 'Editar contato' : 'Deletar contato';
 
   return (
     <>
@@ -120,42 +127,52 @@ export function ContactsList({ contacts }: ContactsListProps) {
       </Container>
 
       <Modal
-        title="Editar contato"
+        title={contactModalTitle}
         isOpen={isEditContactModalOpen}
-        onClose={closeEditContactModal}
-        disableSuccessButton
+        onClose={closeContactModal}
+        disableSuccessButton={isEditMode}
+        successButtonText="Remover"
+        onSuccess={handleDeleteContact}
       >
-        <EditContactForm onSubmit={handleEditContactForm}>
-          <EditContactFormFields>
-            <TextField
-              label="Nome"
-              name="name"
-              autoFocus
-              value={editingContact.name}
-              onChange={handleEditContactFormChange}
-              placeholder="Nome do contato"
-              required
-            />
-            <TextField
-              label="Telefone"
-              name="phone"
-              format="(##) #####-####"
-              value={editingContact.phone}
-              onChange={handleEditContactFormChange}
-              placeholder="(01) 92345-6789"
-              required
-            />
-            <TextField
-              label="Link para foto (opcional)"
-              name="imgUrl"
-              value={editingContact.imgUrl}
-              onChange={handleEditContactFormChange}
-              placeholder="https://link-para-imagem.jpg"
-            />
-          </EditContactFormFields>
+        {isEditMode ? (
+          <EditContactForm onSubmit={handleEditContactForm}>
+            <EditContactFormFields>
+              <TextField
+                label="Nome"
+                name="name"
+                autoFocus
+                value={editingContact.name}
+                onChange={handleEditContactFormChange}
+                placeholder="Nome do contato"
+                required
+              />
+              <TextField
+                label="Telefone"
+                name="phone"
+                format="(##) #####-####"
+                value={editingContact.phone}
+                onChange={handleEditContactFormChange}
+                placeholder="(01) 92345-6789"
+                required
+              />
+              <TextField
+                label="Link para foto (opcional)"
+                name="imgUrl"
+                value={editingContact.imgUrl}
+                onChange={handleEditContactFormChange}
+                placeholder="https://link-para-imagem.jpg"
+              />
+            </EditContactFormFields>
 
-          <Button>Salvar</Button>
-        </EditContactForm>
+            <Button>Salvar</Button>
+          </EditContactForm>
+        ) : (
+          <DeleteContactContainer>
+            <p>Tem certeza que deseja remover este contato?</p>
+
+            <Contact data={editingContact} disabled />
+          </DeleteContactContainer>
+        )}
       </Modal>
     </>
   );

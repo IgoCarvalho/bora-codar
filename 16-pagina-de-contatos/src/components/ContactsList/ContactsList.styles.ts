@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 
 const colors = [
-  '#9a00b3',
   '#633BBC',
-  '#4f46e5',
-  '#0088b3',
   '#07847e',
-  '#16a34a',
+  '#9a00b3',
+  '#0088b3',
   '#B38C00',
+  '#4f46e5',
   '#ea580c',
+  '#16a34a',
   '#e11d48',
 ];
 
@@ -82,4 +82,14 @@ export const EditContactFormFields = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
+`;
+
+export const DeleteContactContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  > p {
+    font-weight: 500;
+  }
 `;

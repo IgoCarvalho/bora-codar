@@ -11,6 +11,8 @@ export const GlobalStyles = createGlobalStyle`
   --violet-900: #1A1924;
   --violet-950: #16151E;
 
+  --red-600: #be123c;
+
   --background: var(--violet-900);
   --text: var(--violet-50);
 }
