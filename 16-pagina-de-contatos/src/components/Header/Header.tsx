@@ -14,6 +14,7 @@ import {
   ActionsContainer,
   Container,
   Content,
+  DeleteActionButton,
   NewContactForm,
   NewContactFormFields,
   TopContent,
@@ -28,7 +29,7 @@ export function Header() {
     imgUrl: '',
   });
 
-  const { createContact } = useContacts();
+  const { createContact, switchEditMode, isEditMode } = useContacts();
 
   function handleOpenNewContactModal() {
     setIsNewContactModalOpen(true);
@@ -77,6 +78,10 @@ export function Header() {
     setNewContactForm((oldState) => ({ ...oldState, [name]: value }));
   }
 
+  function handleEditButton() {
+    switchEditMode();
+  }
+
   return (
     <>
       <Container>
@@ -89,13 +94,13 @@ export function Header() {
                 <AddIcon />
               </ActionButton>
 
-              <ActionButton>
+              <ActionButton highlighted={isEditMode} onClick={handleEditButton}>
                 <PencilIcon />
               </ActionButton>
 
-              <ActionButton>
+              <DeleteActionButton>
                 <TrashIcon />
-              </ActionButton>
+              </DeleteActionButton>
             </ActionsContainer>
           </TopContent>
 

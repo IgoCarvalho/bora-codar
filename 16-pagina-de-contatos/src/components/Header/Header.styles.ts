@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.header`
   background-color: var(--violet-950);
@@ -30,7 +30,11 @@ export const ActionsContainer = styled.div`
   gap: 16px;
 `;
 
-export const ActionButton = styled.button`
+type ActionButtonProps = {
+  highlighted?: boolean;
+};
+
+export const ActionButton = styled.button<ActionButtonProps>`
   display: flex;
   background-color: transparent;
   padding: 4px;
@@ -42,6 +46,23 @@ export const ActionButton = styled.button`
     cursor: pointer;
     background-color: var(--violet-800);
   }
+
+  --highlight-color: var(--violet-500);
+
+  ${({ highlighted }) =>
+    highlighted &&
+    css`
+      background-color: var(--highlight-color);
+
+      &:hover {
+        background-color: var(--highlight-color);
+        filter: brightness(0.9);
+      }
+    `}
+`;
+
+export const DeleteActionButton = styled(ActionButton)`
+  --highlight-color: #be123c;
 `;
 
 export const NewContactForm = styled.form`
