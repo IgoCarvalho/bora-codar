@@ -22,6 +22,7 @@ import {
 
 export function Header() {
   const [isNewContactModalOpen, setIsNewContactModalOpen] = useState(false);
+  const [searchText, setSearchText] = useState('');
 
   const [newContactForm, setNewContactForm] = useState({
     name: '',
@@ -35,6 +36,7 @@ export function Header() {
     isEditMode,
     switchDeleteMode,
     isDeleteMode,
+    searchContacts,
   } = useContacts();
 
   function handleOpenNewContactModal() {
@@ -92,6 +94,14 @@ export function Header() {
     switchDeleteMode();
   }
 
+  function handleSearchInput(event: ChangeEvent<HTMLInputElement>) {
+    const text = event.target.value;
+
+    setSearchText(text);
+
+    searchContacts(text);
+  }
+
   return (
     <>
       <Container>
@@ -120,6 +130,8 @@ export function Header() {
           <Input
             icon
             placeholder="Busque por nome ou por dados de contato..."
+            onChange={handleSearchInput}
+            value={searchText}
           />
         </Content>
       </Container>

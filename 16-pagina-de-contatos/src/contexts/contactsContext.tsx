@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState } from 'react';
+import { ReactNode, createContext, useMemo, useState } from 'react';
 
 import { Contact } from '../types/contact';
 import { storageService } from '../services/storageService';
@@ -12,6 +12,7 @@ type ContactsContextData = {
   createContact: (contact: Omit<Contact, 'id'>) => void;
   editContact: (updatedContact: Contact) => void;
   deleteContact: (contactId: string) => void;
+  searchContacts: (text: string) => void;
 };
 
 type ContactsProviderProps = {
@@ -26,6 +27,7 @@ export function ContactsProvider({ children }: ContactsProviderProps) {
   const [contacts, setContacts] = useState<Contact[]>(INITIAL_DATA.contacts);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const [contactsFilter, setContactsFilter] = useState('');
 
   function createContact(contact: Omit<Contact, 'id'>) {
     const newContact = {
@@ -71,10 +73,33 @@ export function ContactsProvider({ children }: ContactsProviderProps) {
     storageService.saveContacts(filteredContacts);
   }
 
+  function filterContacts() {
+    const filteredContacts = contacts.filter(
+      (contact) =>
+        contact.name
+          .toLowerCase()
+          .includes(contactsFilter.toLowerCase().trim()) ||
+        contact.phone
+          .toLowerCase()
+          .includes(contactsFilter.toLowerCase().trim())
+    );
+
+    return filteredContacts;
+  }
+
+  function searchContacts(text: string) {
+    setContactsFilter(text);
+  }
+
+  const filteredContacts = useMemo(
+    () => (contactsFilter ? filterContacts() : contacts),
+    [contactsFilter, contacts]
+  );
+
   return (
     <ContactsContext.Provider
       value={{
-        contacts,
+        contacts: filteredContacts,
         createContact,
         isEditMode,
         switchEditMode,
@@ -82,6 +107,7 @@ export function ContactsProvider({ children }: ContactsProviderProps) {
         isDeleteMode,
         switchDeleteMode,
         deleteContact,
+        searchContacts,
       }}
     >
       {children}

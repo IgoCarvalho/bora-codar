@@ -12,6 +12,7 @@ export const Shadow = styled.div`
   position: relative;
 
   &::after {
+    pointer-events: none;
     content: '';
     width: 100%;
     height: 40px;
